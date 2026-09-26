@@ -9,6 +9,11 @@ class DetectionEngine:
     thresholds.
     """
 
+    # Simulation-only thresholds for body movement classification.
+    # NOT clinical thresholds.
+    LOW_MOVEMENT_THRESHOLD = 2
+    HIGH_MOVEMENT_THRESHOLD = 20
+
     def __init__(self):
         self.previous_skin_temperature = None
         self.previous_state = "NORMAL"
@@ -25,8 +30,8 @@ class DetectionEngine:
             record["skin_temperature_c"]
         )
 
-        air_temperature = self._to_float(
-            record["air_temperature_c"]
+        body_movements = self._to_float(
+            record["body_movements"]
         )
 
         dislodgement_flag = record["dislodgement_flag"] == "1"
@@ -49,21 +54,26 @@ class DetectionEngine:
                 message="Skin temperature data unavailable."
             )
 
-        if air_temperature is None:
+        if body_movements is None:
 
             return self._result(
                 record,
                 state="SENSOR_ERROR",
-                message="Incubator air temperature unavailable."
+                message="Body movement data unavailable."
             )
 
         # -------------------------------------------------
-        # 3. Calculate temperature difference
+        # 3. Classify body movement level
         # -------------------------------------------------
 
-        temperature_difference = (
-            skin_temperature - air_temperature
-        )
+        if body_movements < self.LOW_MOVEMENT_THRESHOLD:
+            movement_status = "LOW"
+
+        elif body_movements > self.HIGH_MOVEMENT_THRESHOLD:
+            movement_status = "HIGH"
+
+        else:
+            movement_status = "NORMAL"
 
         # -------------------------------------------------
         # 4. Calculate rate of change
@@ -158,7 +168,23 @@ class DetectionEngine:
             )
 
         # -------------------------------------------------
-        # 10. Normal state
+        # 10. Body movement variation
+        # -------------------------------------------------
+
+        elif movement_status == "LOW":
+
+            state = "WARNING"
+
+            message = "Low body movement detected."
+
+        elif movement_status == "HIGH":
+
+            state = "WARNING"
+
+            message = "Elevated body movement detected."
+
+        # -------------------------------------------------
+        # 11. Normal state
         # -------------------------------------------------
 
         else:
@@ -170,14 +196,14 @@ class DetectionEngine:
         self.previous_state = state
 
         # -------------------------------------------------
-        # 11. Return processed result
+        # 12. Return processed result
         # -------------------------------------------------
 
         return self._result(
             record,
             state=state,
             message=message,
-            temperature_difference=temperature_difference,
+            movement_status=movement_status,
             rate_of_change=rate_of_change
         )
 
@@ -208,7 +234,7 @@ class DetectionEngine:
         record,
         state,
         message,
-        temperature_difference=None,
+        movement_status=None,
         rate_of_change=None
     ):
 
@@ -219,8 +245,11 @@ class DetectionEngine:
             "skin_temperature_c":
                 record["skin_temperature_c"],
 
-            "air_temperature_c":
-                record["air_temperature_c"],
+            "body_movements":
+                record["body_movements"],
+
+            "movement_status":
+                movement_status,
 
             "sensor_status":
                 record["sensor_status"],
@@ -239,11 +268,6 @@ class DetectionEngine:
 
             "message":
                 message,
-
-            "temperature_difference_c":
-                round(temperature_difference, 2)
-                if temperature_difference is not None
-                else None,
 
             "rate_of_change_c":
                 round(rate_of_change, 2)

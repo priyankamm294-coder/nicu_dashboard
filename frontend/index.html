@@ -1118,9 +1118,9 @@ function createBabyCard(id) {
 
         skin_temperature_c: "--",
 
-        air_temperature_c: "--",
+        body_movements: "--",
 
-        temperature_difference_c: "--",
+        movement_status: "--",
 
         rate_of_change: "--",
 
@@ -1240,19 +1240,19 @@ function createBabyCard(id) {
                 <div class="value-box">
 
                     <div class="value-label">
-                        Air Temperature
+                        Body Movements
                     </div>
 
                     <div class="value">
 
                         ${
                             formatNumber(
-                                d.air_temperature_c
+                                d.body_movements
                             )
                         }
 
                         <span class="value-unit">
-                            °C
+                            /min
                         </span>
 
                     </div>
@@ -1263,20 +1263,14 @@ function createBabyCard(id) {
                 <div class="value-box">
 
                     <div class="value-label">
-                        Temperature Δ
+                        Movement Status
                     </div>
 
                     <div class="value">
 
                         ${
-                            formatNumber(
-                                d.temperature_difference_c
-                            )
+                            d.movement_status || "--"
                         }
-
-                        <span class="value-unit">
-                            °C
-                        </span>
 
                     </div>
 
@@ -1372,7 +1366,7 @@ function createBabyCard(id) {
                     <div class="chart-title">
 
                         <span>
-                            Incubator Air Trend
+                            Body Movements Trend
                         </span>
 
                         <span>
@@ -1384,13 +1378,13 @@ function createBabyCard(id) {
                     <div class="chart-container">
 
                         <canvas
-                            id="airChart-${id}"
+                            id="movementChart-${id}"
                         ></canvas>
 
                     </div>
 
                     <div
-                        id="airInfo-${id}"
+                        id="movementInfo-${id}"
                         class="chart-click-info"
                     >
                         Click a graph point to view the exact reading.
@@ -1428,20 +1422,20 @@ function createCharts(id) {
             "skinChart-" + id
         );
 
-    const airCanvas =
+    const movementCanvas =
         document.getElementById(
-            "airChart-" + id
+            "movementChart-" + id
         );
 
 
-    if(!skinCanvas || !airCanvas)
+    if(!skinCanvas || !movementCanvas)
         return;
 
 
     if(charts[id]) {
 
         charts[id].skin.destroy();
-        charts[id].air.destroy();
+        charts[id].movement.destroy();
 
     }
 
@@ -1462,9 +1456,9 @@ function createCharts(id) {
         );
 
 
-    const airValues =
+    const movementValues =
         records.map(
-            r => Number(r.air_temperature_c)
+            r => Number(r.body_movements)
         );
 
 
@@ -1563,9 +1557,9 @@ function createCharts(id) {
         );
 
 
-    charts[id].air =
+    charts[id].movement =
         new Chart(
-            airCanvas,
+            movementCanvas,
             {
 
                 type: "line",
@@ -1577,10 +1571,10 @@ function createCharts(id) {
                     datasets: [{
 
                         label:
-                            "Air Temperature",
+                            "Body Movements",
 
                         data:
-                            airValues,
+                            movementValues,
 
                         borderWidth: 2,
 
@@ -1643,7 +1637,7 @@ function createCharts(id) {
 
                         showGraphReading(
                             id,
-                            "air",
+                            "movement",
                             record
                         );
 
@@ -1691,14 +1685,14 @@ function showGraphReading(
 
         const box =
             document.getElementById(
-                "airInfo-" + id
+                "movementInfo-" + id
             );
 
         box.innerHTML =
-            `<b>${time}</b> — Incubator air:
-             <b>${Number(record.air_temperature_c).toFixed(2)} °C</b>
-             | Δ:
-             <b>${Number(record.temperature_difference_c).toFixed(2)} °C</b>`;
+            `<b>${time}</b> — Body movements:
+             <b>${Number(record.body_movements)} /min</b>
+             | Status:
+             <b>${record.movement_status || "--"}</b>`;
 
     }
 

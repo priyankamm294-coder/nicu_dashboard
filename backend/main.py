@@ -82,8 +82,8 @@ def run_system(delay=1):
                 )
 
                 print(
-                    f"AIR TEMP   : "
-                    f"{result['air_temperature_c']} °C"
+                    f"MOVEMENTS  : "
+                    f"{result['body_movements']}"
                 )
 
                 print(
@@ -99,11 +99,6 @@ def run_system(delay=1):
                 print(
                     f"EVENT      : "
                     f"{result['event']}"
-                )
-
-                print(
-                    f"TEMP Δ     : "
-                    f"{result['temperature_difference_c']} °C"
                 )
 
                 print(

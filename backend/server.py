@@ -103,6 +103,7 @@ def create_telemetry(incubator_id, tick):
         # -------------------------------------------------
 
         import math
+        import random
 
         base_temperature = {
             "INC-005": 36.60,
@@ -113,30 +114,34 @@ def create_telemetry(incubator_id, tick):
             "INC-010": 36.57,
         }.get(incubator_id, 36.60)
 
-        air_temperature = {
-            "INC-005": 32.20,
-            "INC-006": 32.18,
-            "INC-007": 32.25,
-            "INC-008": 32.22,
-            "INC-009": 32.20,
-            "INC-010": 32.24,
-        }.get(incubator_id, 32.20)
+        base_movements = {
+            "INC-005": 6,
+            "INC-006": 8,
+            "INC-007": 5,
+            "INC-008": 9,
+            "INC-009": 7,
+            "INC-010": 6,
+        }.get(incubator_id, 7)
 
         variation = math.sin(tick / 4) * 0.08
 
         skin_temperature = base_temperature + variation
 
+        body_movements = max(
+            0,
+            base_movements + random.randint(-3, 3)
+        )
+
         row = {
             "timestamp": datetime.now().isoformat(),
             "incubator_id": incubator_id,
             "skin_temperature_c": f"{skin_temperature:.2f}",
-            "air_temperature_c": f"{air_temperature:.2f}",
+            "body_movements": str(body_movements),
             "dislodgement_flag": "0",
             "sensor_status": "CONNECTED",
             "signal_quality": "GOOD",
             "event": "NORMAL",
             "simulation_mode": "NORMAL",
-            "temperature_difference_c": f"{skin_temperature - air_temperature:.2f}",
             "data_valid": "1",
         }
 
@@ -226,8 +231,8 @@ async def telemetry_stream():
                 f"{result.get('state', 'UNKNOWN')} | "
                 f"Skin: "
                 f"{result.get('skin_temperature_c', '--')} °C | "
-                f"Air: "
-                f"{result.get('air_temperature_c', '--')} °C | "
+                f"Movements: "
+                f"{result.get('body_movements', '--')} | "
                 f"Probe: "
                 f"{result.get('sensor_status', '--')}"
             )

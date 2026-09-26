@@ -42,8 +42,8 @@ def stream_data(delay=1):
                     f"{record['skin_temperature_c']} °C"
                 )
                 print(
-                    f"Air Temp       : "
-                    f"{record['air_temperature_c']} °C"
+                    f"Body Movements : "
+                    f"{record['body_movements']}"
                 )
                 print(
                     f"Probe Status   : "
@@ -70,4 +70,3 @@ def stream_data(delay=1):
 
 if __name__ == "__main__":
     stream_data(delay=1)
-    
