@@ -681,6 +681,20 @@ button {
         grid-column: auto;
     }
 }
+
+        .individual-alert {
+                background: #ffffff;
+                border-radius: 8px;
+                padding: 10px 14px;
+                margin-bottom: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .individual-alert:last-child {
+                margin-bottom: 0;
+            }
 </style>
 </head>
 
@@ -2447,12 +2461,13 @@ function updateAlert(data) {
     // ----------------------------------------
 
     message.innerHTML =
-        allAlerts
-            .map(
-                alert =>
-                    `<div>${alert}</div>`
-            )
-            .join("");
+    allAlerts
+        .map(alert => `
+            <div class="individual-alert">
+                ${alert}
+            </div>
+        `)
+        .join("");
 
 
     // ----------------------------------------
