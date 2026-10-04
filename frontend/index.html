@@ -457,6 +457,26 @@ button {
     margin: 7px 0 15px;
 }
 
+
+/* PATIENT ACTIONS */
+.card-actions { display:flex; justify-content:flex-end; margin-top:14px; padding-top:12px; border-top:1px solid #edf1f5; }
+.discharge-btn { border:none; background:#dc2626; color:white; padding:9px 16px; border-radius:7px; font-size:11px; font-weight:700; cursor:pointer; }
+.discharge-btn:hover { background:#b91c1c; }
+
+/* PATIENT HISTORY */
+.history-panel { margin-top:22px; }
+.history-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+.history-header h3 { margin:0; }
+.clear-history-btn { border:1px solid #d5dce5; background:white; color:#475467; padding:7px 11px; border-radius:6px; font-size:10px; cursor:pointer; }
+.history-table-wrap { overflow-x:auto; }
+.history-table { width:100%; border-collapse:collapse; min-width:760px; }
+.history-table th, .history-table td { padding:10px 9px; border-bottom:1px solid #edf1f5; text-align:left; font-size:10px; }
+.history-table th { color:#667085; font-size:9px; text-transform:uppercase; letter-spacing:.4px; background:#f7f9fb; }
+.history-status { font-weight:700; }
+.history-status.active { color:#00875a; }
+.history-status.discharged { color:#475467; }
+.history-empty { color:#8792a2; font-size:11px; padding:14px 0; }
+
 /* BOTTOM */
 
 .bottom-grid {
@@ -681,20 +701,6 @@ button {
         grid-column: auto;
     }
 }
-
-        .individual-alert {
-                background: #ffffff;
-                border-radius: 8px;
-                padding: 10px 14px;
-                margin-bottom: 8px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-                font-size: 14px;
-                font-weight: 600;
-            }
-
-            .individual-alert:last-child {
-                margin-bottom: 0;
-            }
 </style>
 </head>
 
@@ -865,6 +871,19 @@ button {
 </div>
 
 
+    <!-- PATIENT HISTORY -->
+    <div class="panel history-panel">
+        <div class="history-header">
+            <h3>Baby Admission / Discharge History</h3>
+            <button class="clear-history-btn" onclick="clearBabyHistory()">
+                Clear History
+            </button>
+        </div>
+        <div id="historyTableContainer">
+            <div class="history-empty">No patient history yet.</div>
+        </div>
+    </div>
+
 <div class="footer">
     NeoCare Software Prototype • Simulation Data Only • Not for Clinical or Patient-Care Use
 </div>
@@ -969,12 +988,15 @@ button {
 const MAX_INCUBATORS = 10;
 
 const incubators = {};
-
 const charts = {};
-
 const history = {};
-
 let socket = null;
+
+let babyHistory = JSON.parse(
+    localStorage.getItem("neoCareBabyHistory") || "[]"
+);
+
+const SAVED_INCUBATORS_KEY = "neoCareIncubatorAssignments";
 
 
 /* -------------------------------------------------
@@ -983,52 +1005,54 @@ let socket = null;
 
 function initializeUnits() {
 
-    for(let i = 1; i <= MAX_INCUBATORS; i++) {
+    const saved = JSON.parse(
+        localStorage.getItem(SAVED_INCUBATORS_KEY) || "null"
+    );
 
-        const id =
-            "INC-" + String(i).padStart(3, "0");
+    for(let i = 1; i <= MAX_INCUBATORS; i++) {
+        const id = "INC-" + String(i).padStart(3, "0");
+        const savedUnit = saved && saved[id];
 
         incubators[id] = {
-
             id: id,
-
-            occupied: i <= 4,
-
-            babyName:
-    i <= 4
-    ? "Baby " + String(i).padStart(3, "0")
-    : "",
-
-babyId:
-    i <= 4
-    ? "B00" + i
-    : "",
-
-            age:
-                i <= 4
-                ? "--"
-                : "",
-
-            weight:
-                i <= 4
-                ? "--"
-                : "",
-
-            doctor: "",
-
-            notes: "",
-
+            occupied: savedUnit ? Boolean(savedUnit.occupied) : i <= 4,
+            babyName: savedUnit ? (savedUnit.babyName || "") : (i <= 4 ? "Baby " + String(i).padStart(3, "0") : ""),
+            babyId: savedUnit ? (savedUnit.babyId || "") : (i <= 4 ? "B00" + i : ""),
+            age: savedUnit ? (savedUnit.age || "") : (i <= 4 ? "--" : ""),
+            weight: savedUnit ? (savedUnit.weight || "") : (i <= 4 ? "--" : ""),
+            doctor: savedUnit ? (savedUnit.doctor || "") : "",
+            notes: savedUnit ? (savedUnit.notes || "") : "",
+            admittedAt: savedUnit ? (savedUnit.admittedAt || null) : null,
+            manualRegistration: savedUnit ? Boolean(savedUnit.manualRegistration) : false,
             data: null,
-
             state: "NORMAL"
-
         };
 
         history[id] = [];
-
     }
 
+    renderHistory();
 }
+
+function persistIncubatorAssignments() {
+    const saved = {};
+    Object.keys(incubators).forEach(id => {
+        const unit = incubators[id];
+        saved[id] = {
+            occupied: unit.occupied,
+            babyName: unit.babyName,
+            babyId: unit.babyId,
+            age: unit.age,
+            weight: unit.weight,
+            doctor: unit.doctor,
+            notes: unit.notes,
+            admittedAt: unit.admittedAt || null,
+            manualRegistration: Boolean(unit.manualRegistration)
+        };
+    });
+    localStorage.setItem(SAVED_INCUBATORS_KEY, JSON.stringify(saved));
+}
+
 
 
 /* -------------------------------------------------
@@ -1397,6 +1421,16 @@ function createBabyCard(id) {
 
             </div>
 
+            <div class="card-actions">
+                <button
+                    class="discharge-btn"
+                    onclick="dischargeBaby('${id}')"
+                >
+                    Discharge Baby
+                </button>
+            </div>
+
+
         </div>
 
     `;
@@ -1436,7 +1470,10 @@ function createCharts(id) {
 
 
     if(charts[id]) {
-        return;
+
+        charts[id].skin.destroy();
+        charts[id].movement.destroy();
+
     }
 
 
@@ -1648,99 +1685,6 @@ function createCharts(id) {
             }
         );
 
-
-    charts[id].movement =
-        new Chart(
-            movementCanvas,
-            {
-
-                type: "line",
-
-                data: {
-
-                    labels: labels,
-
-                    datasets: [{
-
-                        label:
-                            "Body Movements",
-
-                        data:
-                            movementValues,
-
-                        borderWidth: 2,
-
-                        pointRadius: 2,
-
-                        pointHoverRadius: 6,
-
-                        tension: 0.35,
-
-                        fill: false
-
-                    }]
-
-                },
-
-                options: {
-
-                    responsive: true,
-
-                    maintainAspectRatio: false,
-
-                    animation: false,
-
-                    plugins: {
-
-                        legend: {
-                            display: false
-                        }
-
-                    },
-
-                    scales: {
-
-                        x: {
-                            display: false
-                        },
-
-                        y: {
-
-                            ticks: {
-                                font: {
-                                    size: 8
-                                }
-                            }
-
-                        }
-
-                    },
-
-                    onClick: function(event, elements) {
-
-                        if(elements.length === 0)
-                            return;
-
-                        const index =
-                            elements[0].index;
-
-                        const record =
-                            records[index];
-
-                        showGraphReading(
-                            id,
-                            "movement",
-                            record
-                        );
-
-                    }
-
-                }
-
-            }
-        );
-
-
 }
 
 
@@ -1896,22 +1840,18 @@ function processTelemetry(data) {
 
 
 // -------------------------------------------------
-// Use baby information from the real dataset
+// Use baby information from the dataset only for the
+// demo babies. A manually registered baby keeps its own identity.
 // -------------------------------------------------
 
-if (data.baby_id) {
+if (!unit.manualRegistration) {
+    if (data.baby_id) {
+        unit.babyId = data.baby_id;
+    }
 
-    unit.babyId =
-        data.baby_id;
-
-}
-
-
-if (data.baby_name) {
-
-    unit.babyName =
-        data.baby_name;
-
+    if (data.baby_name) {
+        unit.babyName = data.baby_name;
+    }
 }
 
 
@@ -1962,253 +1902,39 @@ unit.state =
 
 function updateUnitCard(id) {
 
-    const unit = incubators[id];
+    const oldCards =
+        document.querySelectorAll(
+            ".incubator-card"
+        );
 
-    if (!unit) return;
+
+    let index = -1;
 
 
-    const card =
-        [...document.querySelectorAll(".incubator-card")]
-        .find(card => {
+    oldCards.forEach(
+        (card, i) => {
 
             const badge =
-                card.querySelector(".incubator-id");
+                card.querySelector(
+                    ".incubator-id"
+                );
 
-            return (
+            if(
                 badge &&
                 badge.innerText.trim() === id
-            );
+            ) {
 
-        });
+                index = i;
 
+            }
 
-    if (!card) return;
-
-
-    const d = unit.data || {};
-
-    const state =
-        d.state ||
-        unit.state ||
-        "NORMAL";
-
-
-    // -----------------------------
-    // STATUS
-    // -----------------------------
-
-    const status =
-        card.querySelector(".status");
-
-    if (status) {
-
-        status.className =
-            "status " +
-            state.toLowerCase();
-
-        status.innerText =
-            state;
-
-    }
-
-
-    // -----------------------------
-    // CARD STATE
-    // -----------------------------
-
-    card.classList.remove(
-        "critical",
-        "warning"
+        }
     );
 
 
-    if (state === "CRITICAL") {
-
-        card.classList.add("critical");
-
-    }
-    else if (state === "WARNING") {
-
-        card.classList.add("warning");
-
-    }
-
-
-    // -----------------------------
-    // MAIN VALUES
-    // -----------------------------
-
-    const values =
-        card.querySelectorAll(".value");
-
-
-    if (values[0]) {
-
-        values[0].innerHTML =
-            `${formatNumber(
-                d.skin_temperature_c
-            )}
-            <span class="value-unit">°C</span>`;
-
-    }
-
-
-    if (values[1]) {
-
-        values[1].innerHTML =
-            `${formatNumber(
-                d.body_movements
-            )}
-            <span class="value-unit">/min</span>`;
-
-    }
-
-
-    if (values[2]) {
-
-        values[2].innerText =
-            d.movement_status || "--";
-
-    }
-
-
-    // -----------------------------
-    // SENSOR VALUES
-    // -----------------------------
-
-    const sensorValues =
-        card.querySelectorAll(
-            ".sensor-value"
-        );
-
-
-    if (sensorValues[0]) {
-
-        sensorValues[0].innerText =
-            d.sensor_status || "--";
-
-    }
-
-
-    if (sensorValues[1]) {
-
-        sensorValues[1].innerText =
-            d.signal_quality || "--";
-
-    }
-
-
-    if (sensorValues[2]) {
-
-        sensorValues[2].innerText =
-            formatNumber(
-                d.rate_of_change ??
-                d.rate_of_change_c
-            ) + " °C";
-
-    }
-
-
-    // -----------------------------
-    // CHART TITLE STATUS
-    // -----------------------------
-
-    const chartTitles =
-        card.querySelectorAll(
-            ".chart-title span:last-child"
-        );
-
-
-    if (chartTitles[0]) {
-
-        chartTitles[0].innerText =
-            state;
-
-    }
-
-
-    if (chartTitles[1]) {
-
-        chartTitles[1].innerText =
-            state;
-
-    }
-
-
-    // -----------------------------
-    // UPDATE GRAPH ONLY
-    // -----------------------------
-
-    updateCharts(id);
+    renderDashboard();
 
 }
-
-function updateCharts(id) {
-
-    if (!charts[id]) {
-        return;
-    }
-
-
-    const records =
-        history[id] || [];
-
-
-    const labels =
-        records.map(
-            r => formatTime(r.timestamp)
-        );
-
-
-    const skinValues =
-        records.map(
-            r => Number(
-                r.skin_temperature_c
-            )
-        );
-
-
-    const movementValues =
-        records.map(
-            r => Number(
-                r.body_movements
-            )
-        );
-
-
-    // -----------------------------------------
-    // Update skin temperature chart
-    // -----------------------------------------
-
-    charts[id].skin.data.labels =
-        labels;
-
-    charts[id].skin.data.datasets[0].data =
-        skinValues;
-
-
-    // -----------------------------------------
-    // Update movement chart
-    // -----------------------------------------
-
-    charts[id].movement.data.labels =
-        labels;
-
-    charts[id].movement.data.datasets[0].data =
-        movementValues;
-
-
-    // -----------------------------------------
-    // Update existing charts
-    // -----------------------------------------
-
-    charts[id].skin.update("none");
-
-    charts[id].movement.update("none");
-
-}
-
-    
 
 
 /* -------------------------------------------------
@@ -2299,8 +2025,6 @@ function updateKPIs() {
 
 let alertTimeout = null;
 
-let activeAlerts = {};
-
 function updateAlert(data) {
 
     const banner =
@@ -2309,18 +2033,6 @@ function updateAlert(data) {
     const message =
         document.getElementById("alertMessage");
 
-
-    const incubatorId =
-        data.incubator_id;
-
-
-    if (!incubatorId)
-        return;
-
-
-    // ----------------------------------------
-    // CHECK ALARMS
-    // ----------------------------------------
 
     const overallAlarm =
         Number(data.overall_alarm) === 1;
@@ -2344,11 +2056,16 @@ function updateAlert(data) {
         dislodged;
 
 
-    // ----------------------------------------
-    // IF THIS INCUBATOR HAS AN ALARM
-    // ----------------------------------------
-
     if (isCritical) {
+
+        // Cancel the previous hide timer
+        if (alertTimeout) {
+
+            clearTimeout(alertTimeout);
+
+            alertTimeout = null;
+        }
+
 
         let alarmMessages = [];
 
@@ -2389,107 +2106,18 @@ function updateAlert(data) {
         }
 
 
-        // ----------------------------------------
-        // STORE THIS INCUBATOR'S CURRENT ALARMS
-        // ----------------------------------------
-
-        activeAlerts[incubatorId] =
-            alarmMessages;
-
-    }
+        message.innerText =
+            `${data.incubator_id} — ${
+                alarmMessages.join(", ")
+            }`;
 
 
-    // ----------------------------------------
-    // IF THIS INCUBATOR IS NORMAL
-    // REMOVE ITS OLD ALERT
-    // ----------------------------------------
-
-    else {
-
-        delete activeAlerts[incubatorId];
-
-    }
+        // Show alert
+        banner.classList.add("active");
 
 
-    // ----------------------------------------
-    // CREATE ONE COMBINED ALERT LIST
-    // ----------------------------------------
-
-    const allAlerts = [];
-
-
-    Object.keys(activeAlerts).forEach(
-        id => {
-
-            activeAlerts[id].forEach(
-                alarm => {
-
-                    allAlerts.push(
-                        `${id} — ${alarm}`
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    // ----------------------------------------
-    // NO ACTIVE ALERTS
-    // ----------------------------------------
-
-    if (allAlerts.length === 0) {
-
-        banner.classList.remove("active");
-
-        if (alertTimeout) {
-
-            clearTimeout(alertTimeout);
-
-            alertTimeout = null;
-
-        }
-
-        return;
-
-    }
-
-
-    // ----------------------------------------
-    // DISPLAY ALL ALERTS ONE BELOW ANOTHER
-    // ----------------------------------------
-
-    message.innerHTML =
-    allAlerts
-        .map(alert => `
-            <div class="individual-alert">
-                ${alert}
-            </div>
-        `)
-        .join("");
-
-
-    // ----------------------------------------
-    // SHOW BANNER
-    // ----------------------------------------
-
-    banner.classList.add("active");
-
-
-    // ----------------------------------------
-    // RESET 5 SECOND TIMER
-    // ----------------------------------------
-
-    if (alertTimeout) {
-
-        clearTimeout(alertTimeout);
-
-    }
-
-
-    alertTimeout =
-        setTimeout(() => {
+        // Keep it visible for 5 seconds
+        alertTimeout = setTimeout(() => {
 
             banner.classList.remove("active");
 
@@ -2497,6 +2125,7 @@ function updateAlert(data) {
 
         }, 5000);
 
+    }
 }
 
 /* -------------------------------------------------
@@ -2755,6 +2384,28 @@ function registerBaby() {
     incubators[incubator].notes =
         notes;
 
+    incubators[incubator].admittedAt =
+        new Date().toISOString();
+    incubators[incubator].manualRegistration = true;
+    incubators[incubator].data = null;
+    incubators[incubator].state = "NORMAL";
+
+    babyHistory.push({
+        babyId: incubators[incubator].babyId,
+        babyName: incubators[incubator].babyName,
+        incubatorId: incubator,
+        age: incubators[incubator].age,
+        weight: incubators[incubator].weight,
+        doctor: incubators[incubator].doctor,
+        notes: incubators[incubator].notes,
+        admittedAt: incubators[incubator].admittedAt,
+        dischargedAt: null,
+        status: "ADMITTED"
+    });
+
+    persistIncubatorAssignments();
+    saveBabyHistory();
+
 
     closeModal();
 
@@ -2762,6 +2413,129 @@ function registerBaby() {
 
     renderDashboard();
 
+}
+
+
+/* -------------------------------------------------
+   DISCHARGE BABY / PATIENT HISTORY
+------------------------------------------------- */
+
+function saveBabyHistory() {
+    localStorage.setItem("neoCareBabyHistory", JSON.stringify(babyHistory));
+}
+
+function dischargeBaby(id) {
+    const unit = incubators[id];
+    if(!unit || !unit.occupied) return;
+
+    if(!confirm(`Discharge ${unit.babyName || "this baby"} from ${id}?`)) return;
+
+    const dischargedAt = new Date().toISOString();
+    let record = null;
+
+    for(let i = babyHistory.length - 1; i >= 0; i--) {
+        if(babyHistory[i].incubatorId === id && babyHistory[i].status === "ADMITTED") {
+            record = babyHistory[i];
+            break;
+        }
+    }
+
+    if(!record) {
+        record = {
+            babyId: unit.babyId || "Not Assigned",
+            babyName: unit.babyName || "Unknown",
+            incubatorId: id,
+            age: unit.age || "--",
+            weight: unit.weight || "--",
+            doctor: unit.doctor || "",
+            notes: unit.notes || "",
+            admittedAt: unit.admittedAt || null,
+            dischargedAt: null,
+            status: "ADMITTED"
+        };
+        babyHistory.push(record);
+    }
+
+    record.dischargedAt = dischargedAt;
+    record.status = "DISCHARGED";
+
+    unit.occupied = false;
+    unit.babyName = "";
+    unit.babyId = "";
+    unit.age = "";
+    unit.weight = "";
+    unit.doctor = "";
+    unit.notes = "";
+    unit.admittedAt = null;
+    unit.manualRegistration = false;
+    unit.data = null;
+    unit.state = "NORMAL";
+
+    history[id] = [];
+
+    if(charts[id]) {
+        charts[id].skin.destroy();
+        charts[id].movement.destroy();
+        delete charts[id];
+    }
+
+    persistIncubatorAssignments();
+    saveBabyHistory();
+    renderDashboard();
+    renderHistory();
+}
+
+function clearBabyHistory() {
+    if(babyHistory.length === 0) return;
+    if(!confirm("Clear all baby admission/discharge history?")) return;
+    babyHistory = [];
+    saveBabyHistory();
+    renderHistory();
+}
+
+function renderHistory() {
+    const container = document.getElementById("historyTableContainer");
+    if(!container) return;
+
+    if(babyHistory.length === 0) {
+        container.innerHTML = '<div class="history-empty">No patient history yet.</div>';
+        return;
+    }
+
+    const rows = [...babyHistory].reverse().map(record => `
+        <tr>
+            <td>${escapeHtml(record.babyId || "--")}</td>
+            <td>${escapeHtml(record.babyName || "--")}</td>
+            <td>${escapeHtml(record.incubatorId || "--")}</td>
+            <td>${formatDateTime(record.admittedAt)}</td>
+            <td>${record.dischargedAt ? formatDateTime(record.dischargedAt) : "--"}</td>
+            <td><span class="history-status ${record.status === "ADMITTED" ? "active" : "discharged"}">${record.status}</span></td>
+        </tr>
+    `).join("");
+
+    container.innerHTML = `
+        <div class="history-table-wrap">
+            <table class="history-table">
+                <thead><tr>
+                    <th>Baby ID</th>
+                    <th>Baby Name</th>
+                    <th>Incubator</th>
+                    <th>Admission Time</th>
+                    <th>Discharge Time</th>
+                    <th>Status</th>
+                </tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>`;
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
@@ -2882,6 +2656,7 @@ function formatDateTime(timestamp) {
 initializeUnits();
 
 renderDashboard();
+renderHistory();
 
 connectWebSocket();
 
