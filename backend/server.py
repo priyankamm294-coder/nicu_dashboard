@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_FILE = (
     BASE_DIR
     / "data"
-    / "NeoCare_4_Babies_5_Second_Staggered_Alarm_Dataset.xlsx"
+    / "NeoCare_4_Incubators_Every_Alarm_Test_5s_10s_Break.xlsx"
 )
 
 HISTORY_FILE = (

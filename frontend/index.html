@@ -701,6 +701,316 @@ button {
         grid-column: auto;
     }
 }
+
+/* =========================================================
+   NeoCare — Brighter Navy + Blue + Cyan Color Theme
+   COLOR CHANGES ONLY
+   ========================================================= */
+
+:root {
+    /* 1. Brighter Navy */
+    --neo-navy: #073B66;
+
+    /* 2. Brighter Primary Blue */
+    --neo-blue: #1683E8;
+
+    /* 3. Brighter Cyan */
+    --neo-cyan: #00B8D9;
+
+    /* 4. Vivid Normal Green */
+    --neo-normal: #12B981;
+
+    /* 5. Brighter Warning */
+    --neo-warning: #FFAA00;
+
+    /* 6. Strong Critical Red */
+    --neo-critical: #F04444;
+
+    /* 7. Slightly Brighter Background */
+    --neo-background: #F1F7FF;
+
+    /* 8. More Visible Card Border */
+    --neo-border: #CFE0F2;
+
+    /* Supporting text */
+    --neo-text: #334155;
+    --neo-muted: #5B6B82;
+}
+
+
+/* =========================
+   MAIN BACKGROUND
+   ========================= */
+
+body {
+    background: var(--neo-background);
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+    background: #FFFFFF;
+    border-bottom-color: var(--neo-border);
+}
+
+.brand-title {
+    color: var(--neo-navy);
+}
+
+.brand-icon {
+    color: var(--neo-blue);
+}
+
+
+/* =========================
+   MAIN TITLE
+   ========================= */
+
+.page-title {
+    color: var(--neo-navy);
+}
+
+.page-subtitle {
+    color: var(--neo-muted);
+}
+
+
+/* =========================
+   PRIMARY BLUE BUTTONS
+   ========================= */
+
+.register-btn,
+.save-btn {
+    background: var(--neo-blue);
+}
+
+
+/* =========================
+   CYAN ACCENTS
+   ========================= */
+
+.connection-badge.connected {
+    color: var(--neo-cyan);
+}
+
+.brand-accent,
+.cyan,
+.status-cyan {
+    color: var(--neo-cyan);
+}
+
+
+/* =========================
+   KPI CARDS
+   ========================= */
+
+.kpi {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+
+/* =========================
+   KPI TEXT COLORS
+   ========================= */
+
+.kpi-value.green,
+.green,
+.status.normal,
+.system-ok {
+    color: var(--neo-normal);
+}
+
+.kpi-value.red,
+.red,
+.status.critical {
+    color: var(--neo-critical);
+}
+
+.orange,
+.status.warning {
+    color: var(--neo-warning);
+}
+
+
+/* =========================
+   INCUBATOR CARDS
+   ========================= */
+
+.incubator-card {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.incubator-id {
+    background: #EAF4FF;
+    color: var(--neo-navy);
+}
+
+
+/* =========================
+   NORMAL / WARNING / CRITICAL
+   ========================= */
+
+.dot.normal {
+    background: var(--neo-normal);
+}
+
+.dot.warning {
+    background: var(--neo-warning);
+}
+
+.dot.critical {
+    background: var(--neo-critical);
+}
+
+
+/* =========================
+   VALUE BOXES
+   ========================= */
+
+.value-box {
+    background: #F8FBFF;
+    border-color: var(--neo-border);
+}
+
+
+/* =========================
+   CHARTS
+   ========================= */
+
+.chart-container {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.chart-click-info {
+    background: #F1F7FF;
+    color: var(--neo-muted);
+}
+
+
+/* =========================
+   PANELS
+   ========================= */
+
+.panel {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.panel h3 {
+    color: var(--neo-navy);
+}
+
+
+/* =========================
+   SYSTEM STATUS
+   ========================= */
+
+.system-row {
+    background: #F8FBFF;
+    border-color: var(--neo-border);
+}
+
+
+/* =========================
+   EMPTY INCUBATOR
+   ========================= */
+
+.empty-card {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.empty-title {
+    color: var(--neo-navy);
+}
+
+
+/* =========================
+   HISTORY TABLE
+   ========================= */
+
+.history-table {
+    border-color: var(--neo-border);
+}
+
+.history-table th {
+    background: #EAF4FF;
+    color: var(--neo-navy);
+}
+
+.history-table td {
+    border-color: var(--neo-border);
+}
+
+
+/* =========================
+   FORM INPUTS
+   ========================= */
+
+.form-group input,
+.form-group select {
+    border-color: var(--neo-border);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--neo-blue);
+}
+
+
+/* =========================
+   CANCEL BUTTON
+   ========================= */
+
+.cancel-btn {
+    border-color: var(--neo-border);
+}
+
+
+/* =========================
+   ALERT COLORS
+   ========================= */
+
+.alert-banner {
+    border-color: var(--neo-critical);
+}
+
+.alert-title {
+    color: var(--neo-critical);
+}
+
+
+/* =========================
+   CRITICAL STATUS
+   ========================= */
+
+.status.critical {
+    color: var(--neo-critical);
+}
+
+
+/* =========================
+   WARNING STATUS
+   ========================= */
+
+.status.warning {
+    color: var(--neo-warning);
+}
+
+
+/* =========================
+   NORMAL STATUS
+   ========================= */
+
+.status.normal {
+    color: var(--neo-normal);
+}
 </style>
 </head>
 
@@ -1824,9 +2134,260 @@ function connectWebSocket() {
 /* -------------------------------------------------
    PROCESS TELEMETRY
 ------------------------------------------------- */
+/* =========================================================
+   NEOCARE AUDIBLE ALARM SYSTEM
+   ========================================================= */
+
+let alarmAudioContext = null;
+let lastAlarmState = {};
+
+// Keeps track of alarms currently active in each incubator
+const activeIncubatorAlarms = {};
+/*
+   Creates one short beep.
+*/
+function playBeep(frequency = 900, duration = 180) {
+
+    if (!alarmAudioContext) {
+        alarmAudioContext =
+            new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (alarmAudioContext.state === "suspended") {
+        alarmAudioContext.resume();
+    }
+
+    const oscillator =
+        alarmAudioContext.createOscillator();
+
+    const gain =
+        alarmAudioContext.createGain();
+
+    oscillator.type = "square";
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        alarmAudioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.25,
+        alarmAudioContext.currentTime + 0.01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        alarmAudioContext.currentTime + duration / 1000
+    );
+
+    oscillator.connect(gain);
+    gain.connect(alarmAudioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        alarmAudioContext.currentTime + duration / 1000
+    );
+}
+
+
+/*
+   Two-beep alarm.
+*/
+function playTwoBeeps() {
+
+    playBeep(900, 180);
+
+    setTimeout(() => {
+        playBeep(900, 180);
+    }, 300);
+}
+
+
+/*
+   Converts alarm type into the exact wording
+   that should be spoken to the nurse.
+*/
+function getAlarmMessage(incubatorId, alarmType) {
+
+    const number =
+        String(incubatorId).replace(/\D/g, "");
+
+    const incubatorName =
+        `Incubator ${parseInt(number, 10)}`;
+
+    switch (alarmType) {
+
+        case "MOVEMENT":
+            return `${incubatorName} movement alarm`;
+
+        case "LOW_TEMP":
+            return `${incubatorName} low temperature alarm`;
+
+        case "HIGH_TEMP":
+            return `${incubatorName} high temperature alarm`;
+
+        case "LOW_TEMP_MOVEMENT":
+            return `${incubatorName} low temperature and movement alarm`;
+
+        case "HIGH_TEMP_MOVEMENT":
+            return `${incubatorName} high temperature and movement alarm`;
+
+        default:
+            return "";
+    }
+}
+/*
+   Speaks the alarm message.
+*/
+function speakAlarm(message) {
+
+    if (!message) return;
+
+    if ("speechSynthesis" in window) {
+
+        window.speechSynthesis.cancel();
+
+        const speech =
+            new SpeechSynthesisUtterance(message);
+
+        speech.rate = 0.85;
+        speech.pitch = 1;
+        speech.volume = 1;
+
+        window.speechSynthesis.speak(speech);
+    }
+}
+
+
+/*
+   Determines which alarm condition is active.
+*/
+function getAlarmType(data) {
+    const temperature = Number(data.baby_temperature_c);
+    const movement = Number(data.movement);
+
+    const lowTemperature = temperature < 36.5;
+    const highTemperature = temperature > 37.5;
+    const movementAlarm = movement === 1;
+
+    // Both temperature and movement
+    if (lowTemperature && movementAlarm) {
+        return "LOW_TEMP_MOVEMENT";
+    }
+
+    if (highTemperature && movementAlarm) {
+        return "HIGH_TEMP_MOVEMENT";
+    }
+
+    // Temperature only
+    if (lowTemperature) {
+        return "LOW_TEMP";
+    }
+
+    if (highTemperature) {
+        return "HIGH_TEMP";
+    }
+
+    // Movement only
+    if (movementAlarm) {
+        return "MOVEMENT";
+    }
+
+    return null;
+}
+
+/*
+   Main alarm function.
+*/
+function triggerAlarm(data) {
+
+    const incubatorId =
+        data.incubator_id;
+
+    if (!incubatorId) return;
+
+
+    const alarmType =
+        getAlarmType(data);
+
+
+    /*
+       No alarm.
+    */
+    if (!alarmType) {
+
+        lastAlarmState[incubatorId] = null;
+
+        return;
+    }
+
+
+    /*
+       Prevent the same alarm from repeatedly
+       speaking every time a telemetry packet arrives.
+    */
+    if (lastAlarmState[incubatorId] === alarmType) {
+        return;
+    }
+
+
+    /*
+       Remember current alarm.
+    */
+    lastAlarmState[incubatorId] =
+        alarmType;
+
+
+    /*
+       Create wording.
+    */
+    const message =
+        getAlarmMessage(
+            incubatorId,
+            alarmType
+        );
+
+
+    console.log(
+        "🔊 ALARM:",
+        message
+    );
+
+
+    /*
+       Two beeps.
+    */
+    playTwoBeeps();
+
+
+    /*
+       Speak the alarm after the beeps.
+    */
+    setTimeout(() => {
+
+        speakAlarm(message);
+
+    }, 700);
+}
 
 function processTelemetry(data) {
+    const alarmType = getAlarmType(data);
+    if (alarmType) {
 
+    const message =
+        getAlarmMessage(
+            data.incubator_id,
+            alarmType
+        );
+
+    document.getElementById("alertMessage").innerText = message;
+
+    document
+        .getElementById("alertBanner")
+        .classList.add("active");
+}
     const id =
         data.incubator_id;
 
@@ -1887,6 +2448,8 @@ unit.state =
     addEvent(data);
 
     updateAlert(data);
+
+    triggerAlarm(data);
 
     document
         .getElementById("lastUpdate")
@@ -2023,8 +2586,6 @@ function updateKPIs() {
    ALERT
 ------------------------------------------------- */
 
-let alertTimeout = null;
-
 function updateAlert(data) {
 
     const banner =
@@ -2033,6 +2594,13 @@ function updateAlert(data) {
     const message =
         document.getElementById("alertMessage");
 
+    const incubatorId =
+        String(data.incubator_id);
+
+
+    // -----------------------------------------
+    // Check alarm status for THIS incubator
+    // -----------------------------------------
 
     const overallAlarm =
         Number(data.overall_alarm) === 1;
@@ -2056,76 +2624,138 @@ function updateAlert(data) {
         dislodged;
 
 
+    // -----------------------------------------
+    // ALARM ACTIVE FOR THIS INCUBATOR
+    // -----------------------------------------
+
     if (isCritical) {
 
-        // Cancel the previous hide timer
-        if (alertTimeout) {
+        const temperature =
+            Number(data.baby_temperature_c);
 
-            clearTimeout(alertTimeout);
-
-            alertTimeout = null;
-        }
+        let alarmText = "";
 
 
-        let alarmMessages = [];
+        if (temperatureAlarm && movementAlarm) {
 
+            if (temperature < 36.5) {
 
-        if (temperatureAlarm) {
+                alarmText =
+                    "low temperature and movement alarm";
 
-            alarmMessages.push(
-                "Temperature alarm"
-            );
+            }
+            else if (temperature > 37.5) {
 
-        }
+                alarmText =
+                    "high temperature and movement alarm";
 
+            }
+            else {
 
-        if (movementAlarm) {
-
-            alarmMessages.push(
-                "Movement alarm"
-            );
-
-        }
-
-
-        if (dislodged) {
-
-            alarmMessages.push(
-                "Probe dislodgement"
-            );
+                alarmText =
+                    "temperature and movement alarm";
+            }
 
         }
 
+        else if (temperatureAlarm) {
 
-        if (alarmMessages.length === 0) {
+            if (temperature < 36.5) {
 
-            alarmMessages.push(
-                "Overall alarm"
-            );
+                alarmText =
+                    "low temperature alarm";
+
+            }
+            else if (temperature > 37.5) {
+
+                alarmText =
+                    "high temperature alarm";
+
+            }
+            else {
+
+                alarmText =
+                    "temperature alarm";
+            }
 
         }
 
+        else if (movementAlarm) {
 
-        message.innerText =
-            `${data.incubator_id} — ${
-                alarmMessages.join(", ")
-            }`;
+            alarmText =
+                "movement alarm";
+
+        }
+
+        else if (dislodged) {
+
+            alarmText =
+                "probe dislodgement alarm";
+
+        }
+
+        else {
+
+            alarmText =
+                "overall alarm";
+        }
 
 
-        // Show alert
-        banner.classList.add("active");
+        // Convert INC004 → Incubator 4
+        const number =
+            incubatorId.replace(/\D/g, "");
+
+        const incubatorName =
+            `Incubator ${parseInt(number, 10)}`;
 
 
-        // Keep it visible for 5 seconds
-        alertTimeout = setTimeout(() => {
-
-            banner.classList.remove("active");
-
-            alertTimeout = null;
-
-        }, 5000);
+        // Remember this incubator's alarm
+        activeIncubatorAlarms[incubatorId] = {
+            message:
+                `${incubatorName} ${alarmText}`
+        };
 
     }
+
+
+    // -----------------------------------------
+    // NO ALARM FOR THIS INCUBATOR
+    // -----------------------------------------
+
+    else {
+
+        // Remove ONLY this incubator's alarm
+        delete activeIncubatorAlarms[incubatorId];
+
+    }
+
+
+    // -----------------------------------------
+    // CHECK IF ANY INCUBATOR STILL HAS ALARM
+    // -----------------------------------------
+
+    const activeAlarms =
+        Object.values(activeIncubatorAlarms);
+
+
+    if (activeAlarms.length === 0) {
+
+        banner.classList.remove("active");
+
+        message.innerText = "";
+
+        return;
+    }
+
+
+    // -----------------------------------------
+    // KEEP RED BOX VISIBLE
+    // -----------------------------------------
+
+    message.innerText =
+        activeAlarms[0].message;
+
+    banner.classList.add("active");
 }
 
 /* -------------------------------------------------
@@ -2133,7 +2763,31 @@ function updateAlert(data) {
 ------------------------------------------------- */
 
 function addEvent(data) {
+        // Show only abnormal/alarming events
+    const temperatureAlarm =
+        Number(data.temperature_alarm) === 1;
 
+    const movementAlarm =
+        Number(data.movement_alarm) === 1;
+
+    const overallAlarm =
+        Number(data.overall_alarm) === 1;
+
+    const dislodged =
+        data.dislodgement_flag === "1" ||
+        data.dislodgement_flag === true;
+
+    const isAbnormal =
+        temperatureAlarm ||
+        movementAlarm ||
+        overallAlarm ||
+        dislodged;
+
+    // Ignore normal telemetry
+    if (!isAbnormal) {
+        return;
+    }
+    
     const list =
         document.getElementById(
             "eventList"
@@ -2661,6 +3315,5 @@ renderHistory();
 connectWebSocket();
 
 </script>
-
 </body>
 </html>
