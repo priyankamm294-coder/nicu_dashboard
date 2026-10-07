@@ -457,25 +457,102 @@ button {
     margin: 7px 0 15px;
 }
 
-
 /* PATIENT ACTIONS */
-.card-actions { display:flex; justify-content:flex-end; margin-top:14px; padding-top:12px; border-top:1px solid #edf1f5; }
-.discharge-btn { border:none; background:#dc2626; color:white; padding:9px 16px; border-radius:7px; font-size:11px; font-weight:700; cursor:pointer; }
-.discharge-btn:hover { background:#b91c1c; }
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #edf1f5;
+}
+
+.discharge-btn {
+    border: none;
+    background: #dc2626;
+    color: white;
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.discharge-btn:hover {
+    background: #b91c1c;
+}
 
 /* PATIENT HISTORY */
-.history-panel { margin-top:22px; }
-.history-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
-.history-header h3 { margin:0; }
-.clear-history-btn { border:1px solid #d5dce5; background:white; color:#475467; padding:7px 11px; border-radius:6px; font-size:10px; cursor:pointer; }
-.history-table-wrap { overflow-x:auto; }
-.history-table { width:100%; border-collapse:collapse; min-width:760px; }
-.history-table th, .history-table td { padding:10px 9px; border-bottom:1px solid #edf1f5; text-align:left; font-size:10px; }
-.history-table th { color:#667085; font-size:9px; text-transform:uppercase; letter-spacing:.4px; background:#f7f9fb; }
-.history-status { font-weight:700; }
-.history-status.active { color:#00875a; }
-.history-status.discharged { color:#475467; }
-.history-empty { color:#8792a2; font-size:11px; padding:14px 0; }
+
+.history-panel {
+    margin-top: 22px;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.history-header h3 {
+    margin: 0;
+}
+
+.clear-history-btn {
+    border: 1px solid #d5dce5;
+    background: white;
+    color: #475467;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.history-table-wrap {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 10px 9px;
+    border-bottom: 1px solid #edf1f5;
+    text-align: left;
+    font-size: 10px;
+}
+
+.history-table th {
+    color: #667085;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    background: #f7f9fb;
+}
+
+.history-status {
+    font-weight: 700;
+}
+
+.history-status.active {
+    color: #00875a;
+}
+
+.history-status.discharged {
+    color: #475467;
+}
+
+.history-empty {
+    color: #8792a2;
+    font-size: 11px;
+    padding: 14px 0;
+}
 
 /* BOTTOM */
 
@@ -708,48 +785,21 @@ button {
    ========================================================= */
 
 :root {
-    /* 1. Brighter Navy */
     --neo-navy: #073B66;
-
-    /* 2. Brighter Primary Blue */
     --neo-blue: #1683E8;
-
-    /* 3. Brighter Cyan */
     --neo-cyan: #00B8D9;
-
-    /* 4. Vivid Normal Green */
     --neo-normal: #12B981;
-
-    /* 5. Brighter Warning */
     --neo-warning: #FFAA00;
-
-    /* 6. Strong Critical Red */
     --neo-critical: #F04444;
-
-    /* 7. Slightly Brighter Background */
     --neo-background: #F1F7FF;
-
-    /* 8. More Visible Card Border */
     --neo-border: #CFE0F2;
-
-    /* Supporting text */
     --neo-text: #334155;
     --neo-muted: #5B6B82;
 }
 
-
-/* =========================
-   MAIN BACKGROUND
-   ========================= */
-
 body {
     background: var(--neo-background);
 }
-
-
-/* =========================
-   HEADER
-   ========================= */
 
 .header {
     background: #FFFFFF;
@@ -764,11 +814,6 @@ body {
     color: var(--neo-blue);
 }
 
-
-/* =========================
-   MAIN TITLE
-   ========================= */
-
 .page-title {
     color: var(--neo-navy);
 }
@@ -777,20 +822,10 @@ body {
     color: var(--neo-muted);
 }
 
-
-/* =========================
-   PRIMARY BLUE BUTTONS
-   ========================= */
-
 .register-btn,
 .save-btn {
     background: var(--neo-blue);
 }
-
-
-/* =========================
-   CYAN ACCENTS
-   ========================= */
 
 .connection-badge.connected {
     color: var(--neo-cyan);
@@ -802,20 +837,10 @@ body {
     color: var(--neo-cyan);
 }
 
-
-/* =========================
-   KPI CARDS
-   ========================= */
-
 .kpi {
     background: #FFFFFF;
     border-color: var(--neo-border);
 }
-
-
-/* =========================
-   KPI TEXT COLORS
-   ========================= */
 
 .kpi-value.green,
 .green,
@@ -835,11 +860,6 @@ body {
     color: var(--neo-warning);
 }
 
-
-/* =========================
-   INCUBATOR CARDS
-   ========================= */
-
 .incubator-card {
     background: #FFFFFF;
     border-color: var(--neo-border);
@@ -849,11 +869,6 @@ body {
     background: #EAF4FF;
     color: var(--neo-navy);
 }
-
-
-/* =========================
-   NORMAL / WARNING / CRITICAL
-   ========================= */
 
 .dot.normal {
     background: var(--neo-normal);
@@ -867,20 +882,10 @@ body {
     background: var(--neo-critical);
 }
 
-
-/* =========================
-   VALUE BOXES
-   ========================= */
-
 .value-box {
     background: #F8FBFF;
     border-color: var(--neo-border);
 }
-
-
-/* =========================
-   CHARTS
-   ========================= */
 
 .chart-container {
     background: #FFFFFF;
@@ -892,11 +897,6 @@ body {
     color: var(--neo-muted);
 }
 
-
-/* =========================
-   PANELS
-   ========================= */
-
 .panel {
     background: #FFFFFF;
     border-color: var(--neo-border);
@@ -906,20 +906,10 @@ body {
     color: var(--neo-navy);
 }
 
-
-/* =========================
-   SYSTEM STATUS
-   ========================= */
-
 .system-row {
     background: #F8FBFF;
     border-color: var(--neo-border);
 }
-
-
-/* =========================
-   EMPTY INCUBATOR
-   ========================= */
 
 .empty-card {
     background: #FFFFFF;
@@ -929,11 +919,6 @@ body {
 .empty-title {
     color: var(--neo-navy);
 }
-
-
-/* =========================
-   HISTORY TABLE
-   ========================= */
 
 .history-table {
     border-color: var(--neo-border);
@@ -948,11 +933,6 @@ body {
     border-color: var(--neo-border);
 }
 
-
-/* =========================
-   FORM INPUTS
-   ========================= */
-
 .form-group input,
 .form-group select {
     border-color: var(--neo-border);
@@ -963,19 +943,9 @@ body {
     border-color: var(--neo-blue);
 }
 
-
-/* =========================
-   CANCEL BUTTON
-   ========================= */
-
 .cancel-btn {
     border-color: var(--neo-border);
 }
-
-
-/* =========================
-   ALERT COLORS
-   ========================= */
 
 .alert-banner {
     border-color: var(--neo-critical);
@@ -985,38 +955,55 @@ body {
     color: var(--neo-critical);
 }
 
-
-/* =========================
-   CRITICAL STATUS
-   ========================= */
-
 .status.critical {
     color: var(--neo-critical);
 }
-
-
-/* =========================
-   WARNING STATUS
-   ========================= */
 
 .status.warning {
     color: var(--neo-warning);
 }
 
-
-/* =========================
-   NORMAL STATUS
-   ========================= */
-
 .status.normal {
     color: var(--neo-normal);
 }
+
+/* =========================================================
+   ACTIVE INCUBATOR ALARM HIGHLIGHT
+   ========================================================= */
+
+.incubator-card.alarm-active {
+    border: 3px solid #dc2626 !important;
+    background: #fff7f7 !important;
+    box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.12),
+        0 4px 18px rgba(220, 38, 38, 0.18);
+    position: relative;
+}
+
+.incubator-card.alarm-active::after {
+    content: "⚠ ALARM";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    background: #dc2626;
+    color: #fff;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+.incubator-card.alarm-active .card-header {
+    background: #fff1f2;
+    border-bottom-color: #fecaca;
+}
+
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <header class="header">
 
@@ -1046,15 +1033,11 @@ body {
 
 </header>
 
-
 <div class="container">
 
     <div class="page-title">
         NICU Incubator Monitoring Dashboard
     </div>
-
-
-    <!-- CRITICAL ALERT -->
 
     <div id="alertBanner" class="alert-banner">
 
@@ -1067,9 +1050,6 @@ body {
         </div>
 
     </div>
-
-
-    <!-- KPI -->
 
     <div class="kpi-grid">
 
@@ -1099,9 +1079,6 @@ body {
 
     </div>
 
-
-    <!-- INCUBATOR SECTION -->
-
     <div class="section-title">
 
         <div>
@@ -1124,11 +1101,7 @@ body {
 
     </div>
 
-
     <div id="incubatorGrid" class="incubator-grid"></div>
-
-
-    <!-- BOTTOM -->
 
     <div class="bottom-grid">
 
@@ -1143,7 +1116,6 @@ body {
             </div>
 
         </div>
-
 
         <div class="panel">
 
@@ -1180,26 +1152,32 @@ body {
 
 </div>
 
+<div class="panel history-panel">
 
-    <!-- PATIENT HISTORY -->
-    <div class="panel history-panel">
-        <div class="history-header">
-            <h3>Baby Admission / Discharge History</h3>
-            <button class="clear-history-btn" onclick="clearBabyHistory()">
-                Clear History
-            </button>
-        </div>
-        <div id="historyTableContainer">
-            <div class="history-empty">No patient history yet.</div>
+    <div class="history-header">
+
+        <h3>Baby Admission / Discharge History</h3>
+
+        <button
+            class="clear-history-btn"
+            onclick="clearBabyHistory()"
+        >
+            Clear History
+        </button>
+
+    </div>
+
+    <div id="historyTableContainer">
+        <div class="history-empty">
+            No patient history yet.
         </div>
     </div>
+
+</div>
 
 <div class="footer">
     NeoCare Software Prototype • Simulation Data Only • Not for Clinical or Patient-Care Use
 </div>
-
-
-<!-- REGISTER BABY MODAL -->
 
 <div id="babyModal" class="modal">
 
@@ -1209,47 +1187,55 @@ body {
 
             <h2>Register New Baby</h2>
 
-            <button class="close-btn" onclick="closeModal()">
+            <button
+                class="close-btn"
+                onclick="closeModal()"
+            >
                 ×
             </button>
 
         </div>
 
-
         <div class="form-grid">
 
             <div class="form-group">
                 <label>Baby Name</label>
-                <input id="babyName" placeholder="Enter baby name">
+                <input
+                    id="babyName"
+                    placeholder="Enter baby name"
+                >
             </div>
-
 
             <div class="form-group">
                 <label>Baby ID</label>
-                <input id="babyId" placeholder="Example: B005">
+                <input
+                    id="babyId"
+                    placeholder="Example: B005"
+                >
             </div>
-
 
             <div class="form-group">
                 <label>Gestational Age</label>
-                <input id="babyAge" placeholder="Example: 31 weeks">
+                <input
+                    id="babyAge"
+                    placeholder="Example: 31 weeks"
+                >
             </div>
-
 
             <div class="form-group">
                 <label>Weight</label>
-                <input id="babyWeight" placeholder="Example: 1.45 kg">
+                <input
+                    id="babyWeight"
+                    placeholder="Example: 1.45 kg"
+                >
             </div>
-
 
             <div class="form-group">
                 <label>Assign Incubator</label>
 
-                <select id="incubatorSelect">
-                </select>
+                <select id="incubatorSelect"></select>
 
             </div>
-
 
             <div class="form-group">
                 <label>Doctor / Care Team</label>
@@ -1260,7 +1246,6 @@ body {
                 >
 
             </div>
-
 
             <div class="form-group full">
 
@@ -1275,14 +1260,19 @@ body {
 
         </div>
 
-
         <div class="form-actions">
 
-            <button class="cancel-btn" onclick="closeModal()">
+            <button
+                class="cancel-btn"
+                onclick="closeModal()"
+            >
                 Cancel
             </button>
 
-            <button class="save-btn" onclick="registerBaby()">
+            <button
+                class="save-btn"
+                onclick="registerBaby()"
+            >
                 Register Baby
             </button>
 
@@ -1291,7 +1281,6 @@ body {
     </div>
 
 </div>
-
 
 <script>
 
@@ -1306,7 +1295,8 @@ let babyHistory = JSON.parse(
     localStorage.getItem("neoCareBabyHistory") || "[]"
 );
 
-const SAVED_INCUBATORS_KEY = "neoCareIncubatorAssignments";
+const SAVED_INCUBATORS_KEY =
+    "neoCareIncubatorAssignments";
 
 
 /* -------------------------------------------------
@@ -1316,53 +1306,140 @@ const SAVED_INCUBATORS_KEY = "neoCareIncubatorAssignments";
 function initializeUnits() {
 
     const saved = JSON.parse(
-        localStorage.getItem(SAVED_INCUBATORS_KEY) || "null"
+        localStorage.getItem(
+            SAVED_INCUBATORS_KEY
+        ) || "null"
     );
 
     for(let i = 1; i <= MAX_INCUBATORS; i++) {
-        const id = "INC-" + String(i).padStart(3, "0");
-        const savedUnit = saved && saved[id];
+
+        const id =
+            "INC-" + String(i).padStart(3, "0");
+
+        const savedUnit =
+            saved && saved[id];
 
         incubators[id] = {
+
             id: id,
-            occupied: savedUnit ? Boolean(savedUnit.occupied) : i <= 4,
-            babyName: savedUnit ? (savedUnit.babyName || "") : (i <= 4 ? "Baby " + String(i).padStart(3, "0") : ""),
-            babyId: savedUnit ? (savedUnit.babyId || "") : (i <= 4 ? "B00" + i : ""),
-            age: savedUnit ? (savedUnit.age || "") : (i <= 4 ? "--" : ""),
-            weight: savedUnit ? (savedUnit.weight || "") : (i <= 4 ? "--" : ""),
-            doctor: savedUnit ? (savedUnit.doctor || "") : "",
-            notes: savedUnit ? (savedUnit.notes || "") : "",
-            admittedAt: savedUnit ? (savedUnit.admittedAt || null) : null,
-            manualRegistration: savedUnit ? Boolean(savedUnit.manualRegistration) : false,
+
+            occupied:
+                savedUnit
+                ? Boolean(savedUnit.occupied)
+                : i <= 4,
+
+            babyName:
+                savedUnit
+                ? (savedUnit.babyName || "")
+                : (
+                    i <= 4
+                    ? "Baby " + String(i).padStart(3, "0")
+                    : ""
+                ),
+
+            babyId:
+                savedUnit
+                ? (savedUnit.babyId || "")
+                : (
+                    i <= 4
+                    ? "B00" + i
+                    : ""
+                ),
+
+            age:
+                savedUnit
+                ? (savedUnit.age || "")
+                : (i <= 4 ? "--" : ""),
+
+            weight:
+                savedUnit
+                ? (savedUnit.weight || "")
+                : (i <= 4 ? "--" : ""),
+
+            doctor:
+                savedUnit
+                ? (savedUnit.doctor || "")
+                : "",
+
+            notes:
+                savedUnit
+                ? (savedUnit.notes || "")
+                : "",
+
+            admittedAt:
+                savedUnit
+                ? (savedUnit.admittedAt || null)
+                : null,
+
+            manualRegistration:
+                savedUnit
+                ? Boolean(savedUnit.manualRegistration)
+                : false,
+
             data: null,
-            state: "NORMAL"
+
+            state: "NORMAL",
+
+            alarmActive: false
         };
 
         history[id] = [];
+
     }
 
     renderHistory();
+
 }
+
 
 function persistIncubatorAssignments() {
-    const saved = {};
-    Object.keys(incubators).forEach(id => {
-        const unit = incubators[id];
-        saved[id] = {
-            occupied: unit.occupied,
-            babyName: unit.babyName,
-            babyId: unit.babyId,
-            age: unit.age,
-            weight: unit.weight,
-            doctor: unit.doctor,
-            notes: unit.notes,
-            admittedAt: unit.admittedAt || null,
-            manualRegistration: Boolean(unit.manualRegistration)
-        };
-    });
-    localStorage.setItem(SAVED_INCUBATORS_KEY, JSON.stringify(saved));
-}
 
+    const saved = {};
+
+    Object.keys(incubators).forEach(id => {
+
+        const unit =
+            incubators[id];
+
+        saved[id] = {
+
+            occupied:
+                unit.occupied,
+
+            babyName:
+                unit.babyName,
+
+            babyId:
+                unit.babyId,
+
+            age:
+                unit.age,
+
+            weight:
+                unit.weight,
+
+            doctor:
+                unit.doctor,
+
+            notes:
+                unit.notes,
+
+            admittedAt:
+                unit.admittedAt || null,
+
+            manualRegistration:
+                Boolean(unit.manualRegistration)
+
+        };
+
+    });
+
+    localStorage.setItem(
+        SAVED_INCUBATORS_KEY,
+        JSON.stringify(saved)
+    );
+
+}
 
 
 /* -------------------------------------------------
@@ -1372,14 +1449,17 @@ function persistIncubatorAssignments() {
 function renderDashboard() {
 
     const grid =
-        document.getElementById("incubatorGrid");
+        document.getElementById(
+            "incubatorGrid"
+        );
 
     grid.innerHTML = "";
 
     for(let i = 1; i <= MAX_INCUBATORS; i++) {
 
         const id =
-            "INC-" + String(i).padStart(3, "0");
+            "INC-" +
+            String(i).padStart(3, "0");
 
         if(incubators[id].occupied) {
 
@@ -1387,7 +1467,8 @@ function renderDashboard() {
                 createBabyCard(id)
             );
 
-        } else {
+        }
+        else {
 
             grid.appendChild(
                 createEmptyCard(id)
@@ -1411,13 +1492,16 @@ function createEmptyCard(id) {
     const div =
         document.createElement("div");
 
-    div.className = "empty-card";
+    div.className =
+        "empty-card";
 
     div.innerHTML = `
 
         <div class="empty-content">
 
-            <div class="empty-icon">＋</div>
+            <div class="empty-icon">
+                ＋
+            </div>
 
             <div class="empty-title">
                 ${id} Available
@@ -1447,49 +1531,98 @@ function createEmptyCard(id) {
    BABY CARD
 ------------------------------------------------- */
 
+function isIncubatorAlarmActive(data, state) {
+
+return (
+    Boolean(getAlarmType(data)) ||
+    Number(data?.movement_alarm) === 1 ||
+    Number(data?.temperature_alarm) === 1 ||
+    Number(data?.overall_alarm) === 1 ||
+    data?.dislodgement_flag === "1" ||
+    data?.dislodgement_flag === true ||
+    state === "CRITICAL"
+);
+
+}
+
+
 function createBabyCard(id) {
 
-    const unit = incubators[id];
+    const unit =
+        incubators[id];
 
-    const d = unit.data || {
+    const d =
+        unit.data || {
 
-        skin_temperature_c: "--",
+            skin_temperature_c: "--",
 
-        body_movements: "--",
+            body_movements: "--",
 
-        movement_status: "--",
+            movement_status: "--",
 
-        rate_of_change: "--",
+            rate_of_change: "--",
 
-        sensor_status: "WAITING",
+            sensor_status: "WAITING",
 
-        signal_quality: "--",
+            signal_quality: "--",
 
-        state: "NORMAL"
+            state: "NORMAL"
 
-    };
+        };
 
 
     const state =
-        d.state || unit.state || "NORMAL";
+        d.state ||
+        unit.state ||
+        "NORMAL";
 
-    unit.state = state;
+
+    unit.state =
+        state;
 
 
-    let cardClass = "";
+    const alarmActive =
+        isIncubatorAlarmActive(
+            d,
+            state
+        );
+
+
+    unit.alarmActive =
+        alarmActive;
+
+
+    let cardClass =
+        "";
+
 
     if(state === "CRITICAL")
         cardClass = "critical";
+
 
     if(state === "WARNING")
         cardClass = "warning";
 
 
+    if(alarmActive) {
+
+        cardClass +=
+            (
+                cardClass
+                ? " "
+                : ""
+            ) + "alarm-active";
+
+    }
+
+
     const div =
         document.createElement("div");
 
+
     div.className =
-        "incubator-card " + cardClass;
+        "incubator-card " +
+        cardClass;
 
 
     const statusClass =
@@ -1547,7 +1680,6 @@ function createBabyCard(id) {
 
 
         <div class="card-body">
-
 
             <div class="value-grid">
 
@@ -1653,12 +1785,15 @@ function createBabyCard(id) {
                 </span>
 
                 <span class="sensor-value">
+
                     ${
                         formatNumber(
                             d.rate_of_change
                         )
                     }
+
                     °C
+
                 </span>
 
             </div>
@@ -1731,15 +1866,17 @@ function createBabyCard(id) {
 
             </div>
 
+
             <div class="card-actions">
+
                 <button
                     class="discharge-btn"
                     onclick="dischargeBaby('${id}')"
                 >
                     Discharge Baby
                 </button>
-            </div>
 
+            </div>
 
         </div>
 
@@ -1769,6 +1906,7 @@ function createCharts(id) {
             "skinChart-" + id
         );
 
+
     const movementCanvas =
         document.getElementById(
             "movementChart-" + id
@@ -1782,6 +1920,7 @@ function createCharts(id) {
     if(charts[id]) {
 
         charts[id].skin.destroy();
+
         charts[id].movement.destroy();
 
     }
@@ -1799,13 +1938,19 @@ function createCharts(id) {
 
     const skinValues =
         records.map(
-            r => Number(r.skin_temperature_c)
+            r =>
+                Number(
+                    r.skin_temperature_c
+                )
         );
 
 
     const movementValues =
         records.map(
-            r => Number(r.body_movements)
+            r =>
+                Number(
+                    r.body_movements
+                )
         );
 
 
@@ -1831,15 +1976,20 @@ function createCharts(id) {
                         data:
                             skinValues,
 
-                        borderWidth: 2,
+                        borderWidth:
+                            2,
 
-                        pointRadius: 2,
+                        pointRadius:
+                            2,
 
-                        pointHoverRadius: 6,
+                        pointHoverRadius:
+                            6,
 
-                        tension: 0.35,
+                        tension:
+                            0.35,
 
-                        fill: false
+                        fill:
+                            false
 
                     }]
 
@@ -1847,16 +1997,22 @@ function createCharts(id) {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false,
+                    maintainAspectRatio:
+                        false,
 
-                    animation: false,
+                    animation:
+                        false,
 
                     plugins: {
 
                         legend: {
-                            display: false
+
+                            display:
+                                false
+
                         }
 
                     },
@@ -1864,39 +2020,53 @@ function createCharts(id) {
                     scales: {
 
                         x: {
-                            display: false
+
+                            display:
+                                false
+
                         },
 
                         y: {
 
                             ticks: {
+
                                 font: {
                                     size: 8
                                 }
+
                             }
 
                         }
 
                     },
 
-                    onClick: function(event, elements) {
+                    onClick:
+                        function(
+                            event,
+                            elements
+                        ) {
 
-                        if(elements.length === 0)
-                            return;
+                            if(
+                                elements.length === 0
+                            )
+                                return;
 
-                        const index =
-                            elements[0].index;
 
-                        const record =
-                            records[index];
+                            const index =
+                                elements[0].index;
 
-                        showGraphReading(
-                            id,
-                            "skin",
-                            record
-                        );
 
-                    }
+                            const record =
+                                records[index];
+
+
+                            showGraphReading(
+                                id,
+                                "skin",
+                                record
+                            );
+
+                        }
 
                 }
 
@@ -1913,7 +2083,8 @@ function createCharts(id) {
 
                 data: {
 
-                    labels: labels,
+                    labels:
+                        labels,
 
                     datasets: [{
 
@@ -1923,15 +2094,20 @@ function createCharts(id) {
                         data:
                             movementValues,
 
-                        borderWidth: 2,
+                        borderWidth:
+                            2,
 
-                        pointRadius: 2,
+                        pointRadius:
+                            2,
 
-                        pointHoverRadius: 6,
+                        pointHoverRadius:
+                            6,
 
-                        tension: 0.35,
+                        tension:
+                            0.35,
 
-                        fill: false
+                        fill:
+                            false
 
                     }]
 
@@ -1939,16 +2115,22 @@ function createCharts(id) {
 
                 options: {
 
-                    responsive: true,
+                    responsive:
+                        true,
 
-                    maintainAspectRatio: false,
+                    maintainAspectRatio:
+                        false,
 
-                    animation: false,
+                    animation:
+                        false,
 
                     plugins: {
 
                         legend: {
-                            display: false
+
+                            display:
+                                false
+
                         }
 
                     },
@@ -1956,39 +2138,53 @@ function createCharts(id) {
                     scales: {
 
                         x: {
-                            display: false
+
+                            display:
+                                false
+
                         },
 
                         y: {
 
                             ticks: {
+
                                 font: {
                                     size: 8
                                 }
+
                             }
 
                         }
 
                     },
 
-                    onClick: function(event, elements) {
+                    onClick:
+                        function(
+                            event,
+                            elements
+                        ) {
 
-                        if(elements.length === 0)
-                            return;
+                            if(
+                                elements.length === 0
+                            )
+                                return;
 
-                        const index =
-                            elements[0].index;
 
-                        const record =
-                            records[index];
+                            const index =
+                                elements[0].index;
 
-                        showGraphReading(
-                            id,
-                            "movement",
-                            record
-                        );
 
-                    }
+                            const record =
+                                records[index];
+
+
+                            showGraphReading(
+                                id,
+                                "movement",
+                                record
+                            );
+
+                        }
 
                 }
 
@@ -2013,7 +2209,9 @@ function showGraphReading(
 
 
     const time =
-        formatTime(record.timestamp);
+        formatTime(
+            record.timestamp
+        );
 
 
     if(type === "skin") {
@@ -2023,17 +2221,20 @@ function showGraphReading(
                 "skinInfo-" + id
             );
 
+
         box.innerHTML =
             `<b>${time}</b> — Skin temperature:
              <b>${Number(record.skin_temperature_c).toFixed(2)} °C</b>
              | State: <b>${record.state || "--"}</b>`;
 
-    } else {
+    }
+    else {
 
         const box =
             document.getElementById(
                 "movementInfo-" + id
             );
+
 
         box.innerHTML =
             `<b>${time}</b> — Body movements:
@@ -2058,291 +2259,441 @@ function connectWebSocket() {
         );
 
 
-    socket.onopen = function() {
+    socket.onopen =
+        function() {
 
-        document
-            .getElementById("connectionBadge")
-            .innerHTML =
-            "🟢 Live Connected";
-
-
-        document
-            .getElementById("wsStatus")
-            .innerHTML =
-            "CONNECTED";
-
-    };
+            document
+                .getElementById(
+                    "connectionBadge"
+                )
+                .innerHTML =
+                "🟢 Live Connected";
 
 
-    socket.onmessage = function(event) {
+            document
+                .getElementById(
+                    "wsStatus"
+                )
+                .innerHTML =
+                "CONNECTED";
 
-        try {
+        };
 
-            const data =
-                JSON.parse(event.data);
 
-            processTelemetry(data);
+    socket.onmessage =
+        function(event) {
 
-        }
+            try {
 
-        catch(error) {
+                const data =
+                    JSON.parse(
+                        event.data
+                    );
+
+
+                processTelemetry(
+                    data
+                );
+
+            }
+
+            catch(error) {
+
+                console.error(
+                    "Invalid telemetry:",
+                    error
+                );
+
+            }
+
+        };
+
+
+    socket.onclose =
+        function() {
+
+            document
+                .getElementById(
+                    "connectionBadge"
+                )
+                .innerHTML =
+                "🔴 Disconnected";
+
+
+            document
+                .getElementById(
+                    "wsStatus"
+                )
+                .innerHTML =
+                "DISCONNECTED";
+
+
+            setTimeout(
+                connectWebSocket,
+                3000
+            );
+
+        };
+
+
+    socket.onerror =
+        function(error) {
 
             console.error(
-                "Invalid telemetry:",
+                "WebSocket error:",
                 error
             );
 
-        }
-
-    };
-
-
-    socket.onclose = function() {
-
-        document
-            .getElementById("connectionBadge")
-            .innerHTML =
-            "🔴 Disconnected";
-
-
-        document
-            .getElementById("wsStatus")
-            .innerHTML =
-            "DISCONNECTED";
-
-
-        setTimeout(
-            connectWebSocket,
-            3000
-        );
-
-    };
-
-
-    socket.onerror = function(error) {
-
-        console.error(
-            "WebSocket error:",
-            error
-        );
-
-    };
+        };
 
 }
 
 
 /* -------------------------------------------------
-   PROCESS TELEMETRY
-------------------------------------------------- */
-/* =========================================================
    NEOCARE AUDIBLE ALARM SYSTEM
-   ========================================================= */
+------------------------------------------------- */
 
 let alarmAudioContext = null;
+
 let lastAlarmState = {};
 
-// Keeps track of alarms currently active in each incubator
 const activeIncubatorAlarms = {};
-/*
-   Creates one short beep.
-*/
-function playBeep(frequency = 900, duration = 180) {
 
-    if (!alarmAudioContext) {
+
+/* -------------------------------------------------
+   BEEP
+------------------------------------------------- */
+
+function playBeep(
+    frequency = 900,
+    duration = 180
+) {
+
+    if(!alarmAudioContext) {
+
         alarmAudioContext =
-            new (window.AudioContext || window.webkitAudioContext)();
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
     }
 
-    if (alarmAudioContext.state === "suspended") {
+
+    if(
+        alarmAudioContext.state ===
+        "suspended"
+    ) {
+
         alarmAudioContext.resume();
+
     }
+
 
     const oscillator =
         alarmAudioContext.createOscillator();
 
+
     const gain =
         alarmAudioContext.createGain();
 
-    oscillator.type = "square";
-    oscillator.frequency.value = frequency;
+
+    oscillator.type =
+        "square";
+
+
+    oscillator.frequency.value =
+        frequency;
+
 
     gain.gain.setValueAtTime(
         0.0001,
         alarmAudioContext.currentTime
     );
 
+
     gain.gain.exponentialRampToValueAtTime(
         0.25,
         alarmAudioContext.currentTime + 0.01
     );
 
+
     gain.gain.exponentialRampToValueAtTime(
         0.0001,
-        alarmAudioContext.currentTime + duration / 1000
+        alarmAudioContext.currentTime +
+        duration / 1000
     );
 
+
     oscillator.connect(gain);
-    gain.connect(alarmAudioContext.destination);
+
+    gain.connect(
+        alarmAudioContext.destination
+    );
+
 
     oscillator.start();
 
+
     oscillator.stop(
-        alarmAudioContext.currentTime + duration / 1000
+        alarmAudioContext.currentTime +
+        duration / 1000
     );
+
 }
 
 
-/*
-   Two-beep alarm.
-*/
+/* -------------------------------------------------
+   TWO BEEPS
+------------------------------------------------- */
+
 function playTwoBeeps() {
 
-    playBeep(900, 180);
+    playBeep(
+        900,
+        180
+    );
 
     setTimeout(() => {
-        playBeep(900, 180);
+
+        playBeep(
+            900,
+            180
+        );
+
     }, 300);
+
 }
 
 
-/*
-   Converts alarm type into the exact wording
-   that should be spoken to the nurse.
-*/
-function getAlarmMessage(incubatorId, alarmType) {
+/* -------------------------------------------------
+   ALARM MESSAGE
+------------------------------------------------- */
+
+function getAlarmMessage(
+    incubatorId,
+    alarmType
+) {
 
     const number =
-        String(incubatorId).replace(/\D/g, "");
+        String(
+            incubatorId
+        ).replace(
+            /\D/g,
+            ""
+        );
+
 
     const incubatorName =
-        `Incubator ${parseInt(number, 10)}`;
+        `Incubator ${parseInt(
+            number,
+            10
+        )}`;
 
-    switch (alarmType) {
+
+    switch(alarmType) {
 
         case "MOVEMENT":
-            return `${incubatorName} movement alarm`;
+
+            return (
+                `${incubatorName} movement alarm`
+            );
+
 
         case "LOW_TEMP":
-            return `${incubatorName} low temperature alarm`;
+
+            return (
+                `${incubatorName} low temperature alarm`
+            );
+
 
         case "HIGH_TEMP":
-            return `${incubatorName} high temperature alarm`;
+
+            return (
+                `${incubatorName} high temperature alarm`
+            );
+
 
         case "LOW_TEMP_MOVEMENT":
-            return `${incubatorName} low temperature and movement alarm`;
+
+            return (
+                `${incubatorName} low temperature and movement alarm`
+            );
+
 
         case "HIGH_TEMP_MOVEMENT":
-            return `${incubatorName} high temperature and movement alarm`;
+
+            return (
+                `${incubatorName} high temperature and movement alarm`
+            );
+
 
         default:
+
             return "";
+
     }
+
 }
-/*
-   Speaks the alarm message.
-*/
+
+
+/* -------------------------------------------------
+   SPEAK ALARM
+------------------------------------------------- */
+
 function speakAlarm(message) {
 
-    if (!message) return;
+    if(!message)
+        return;
 
-    if ("speechSynthesis" in window) {
+
+    if(
+        "speechSynthesis" in window
+    ) {
 
         window.speechSynthesis.cancel();
 
+
         const speech =
-            new SpeechSynthesisUtterance(message);
+            new SpeechSynthesisUtterance(
+                message
+            );
 
-        speech.rate = 0.85;
-        speech.pitch = 1;
-        speech.volume = 1;
 
-        window.speechSynthesis.speak(speech);
+        speech.rate =
+            0.85;
+
+
+        speech.pitch =
+            1;
+
+
+        speech.volume =
+            1;
+
+
+        window.speechSynthesis.speak(
+            speech
+        );
+
     }
+
 }
 
 
-/*
-   Determines which alarm condition is active.
-*/
+/* -------------------------------------------------
+   DETERMINE ALARM TYPE
+------------------------------------------------- */
+
 function getAlarmType(data) {
-    const temperature = Number(data.baby_temperature_c);
-    const movement = Number(data.movement);
 
-    const lowTemperature = temperature < 36.5;
-    const highTemperature = temperature > 37.5;
-    const movementAlarm = movement === 1;
+    const temperature =
+        Number(
+            data.baby_temperature_c
+        );
 
-    // Both temperature and movement
-    if (lowTemperature && movementAlarm) {
+
+    const movement =
+        Number(
+            data.movement
+        );
+
+
+    const lowTemperature =
+        temperature < 36.5;
+
+
+    const highTemperature =
+        temperature > 37.5;
+
+
+    const movementAlarm =
+        movement === 1;
+
+
+    if(
+        lowTemperature &&
+        movementAlarm
+    ) {
+
         return "LOW_TEMP_MOVEMENT";
+
     }
 
-    if (highTemperature && movementAlarm) {
+
+    if(
+        highTemperature &&
+        movementAlarm
+    ) {
+
         return "HIGH_TEMP_MOVEMENT";
+
     }
 
-    // Temperature only
-    if (lowTemperature) {
+
+    if(lowTemperature)
         return "LOW_TEMP";
-    }
 
-    if (highTemperature) {
+
+    if(highTemperature)
         return "HIGH_TEMP";
-    }
 
-    // Movement only
-    if (movementAlarm) {
+
+    if(movementAlarm)
         return "MOVEMENT";
-    }
+
 
     return null;
+
 }
 
-/*
-   Main alarm function.
-*/
+
+/* -------------------------------------------------
+   TRIGGER ALARM
+------------------------------------------------- */
+
 function triggerAlarm(data) {
 
     const incubatorId =
         data.incubator_id;
 
-    if (!incubatorId) return;
+
+    if(!incubatorId)
+        return;
 
 
     const alarmType =
         getAlarmType(data);
 
 
-    /*
-       No alarm.
-    */
-    if (!alarmType) {
+    if(!alarmType) {
 
-        lastAlarmState[incubatorId] = null;
+        lastAlarmState[
+            incubatorId
+        ] = null;
+
 
         return;
+
     }
 
 
-    /*
-       Prevent the same alarm from repeatedly
-       speaking every time a telemetry packet arrives.
-    */
-    if (lastAlarmState[incubatorId] === alarmType) {
+    if(
+        lastAlarmState[
+            incubatorId
+        ] === alarmType
+    ) {
+
         return;
+
     }
 
 
-    /*
-       Remember current alarm.
-    */
-    lastAlarmState[incubatorId] =
-        alarmType;
+    lastAlarmState[
+        incubatorId
+    ] = alarmType;
 
 
-    /*
-       Create wording.
-    */
     const message =
         getAlarmMessage(
             incubatorId,
@@ -2356,111 +2707,166 @@ function triggerAlarm(data) {
     );
 
 
-    /*
-       Two beeps.
-    */
     playTwoBeeps();
 
 
-    /*
-       Speak the alarm after the beeps.
-    */
     setTimeout(() => {
 
-        speakAlarm(message);
-
-    }, 700);
-}
-
-function processTelemetry(data) {
-    const alarmType = getAlarmType(data);
-    if (alarmType) {
-
-    const message =
-        getAlarmMessage(
-            data.incubator_id,
-            alarmType
+        speakAlarm(
+            message
         );
 
-    document.getElementById("alertMessage").innerText = message;
+    }, 700);
 
-    document
-        .getElementById("alertBanner")
-        .classList.add("active");
 }
+
+
+/* -------------------------------------------------
+   PROCESS TELEMETRY
+------------------------------------------------- */
+
+function processTelemetry(data) {
+
+    const alarmType =
+        getAlarmType(data);
+
+
+    if(alarmType) {
+
+        const message =
+            getAlarmMessage(
+                data.incubator_id,
+                alarmType
+            );
+
+
+        document
+            .getElementById(
+                "alertMessage"
+            )
+            .innerText =
+            message;
+
+
+        document
+            .getElementById(
+                "alertBanner"
+            )
+            .classList
+            .add("active");
+
+    }
+
+
     const id =
         data.incubator_id;
 
 
-    if(!id || !incubators[id])
+    if(
+        !id ||
+        !incubators[id]
+    )
         return;
 
 
     const unit =
-    incubators[id];
+        incubators[id];
 
 
-// -------------------------------------------------
-// Use baby information from the dataset only for the
-// demo babies. A manually registered baby keeps its own identity.
-// -------------------------------------------------
+    if(!unit.manualRegistration) {
 
-if (!unit.manualRegistration) {
-    if (data.baby_id) {
-        unit.babyId = data.baby_id;
+        if(data.baby_id) {
+
+            unit.babyId =
+                data.baby_id;
+
+        }
+
+
+        if(data.baby_name) {
+
+            unit.babyName =
+                data.baby_name;
+
+        }
+
     }
 
-    if (data.baby_name) {
-        unit.babyName = data.baby_name;
-    }
-}
+
+    /* -------------------------------------------------
+       STORE LATEST TELEMETRY
+    ------------------------------------------------- */
+
+    unit.data =
+        data;
 
 
-// -------------------------------------------------
-// Store latest telemetry
-// -------------------------------------------------
+    unit.state =
+        data.state ||
+        "NORMAL";
 
-unit.data =
-    data;
 
-unit.state =
-    data.state || "NORMAL";
+    unit.alarmActive =
+        isIncubatorAlarmActive(
+            data,
+            unit.state
+        );
 
 
     if(!history[id])
         history[id] = [];
 
 
-    history[id].push(data);
+    history[id].push(
+        data
+    );
 
 
-    if(history[id].length > 30) {
+    if(
+        history[id].length > 30
+    ) {
 
         history[id].shift();
 
     }
 
 
-    updateUnitCard(id);
+    updateUnitCard(
+        id
+    );
+
 
     updateKPIs();
 
-    addEvent(data);
 
-    updateAlert(data);
+    addEvent(
+        data
+    );
 
-    triggerAlarm(data);
+
+    updateAlert(
+        data
+    );
+
+
+    triggerAlarm(
+        data
+    );
+
 
     document
-        .getElementById("lastUpdate")
+        .getElementById(
+            "lastUpdate"
+        )
         .innerText =
-        new Date().toLocaleTimeString();
+        new Date()
+            .toLocaleTimeString();
 
 }
 
 
 /* -------------------------------------------------
-   UPDATE ONLY ONE CARD
+   UPDATE CARD
 ------------------------------------------------- */
 
 function updateUnitCard(id) {
@@ -2475,19 +2881,24 @@ function updateUnitCard(id) {
 
 
     oldCards.forEach(
-        (card, i) => {
+        (
+            card,
+            i
+        ) => {
 
             const badge =
                 card.querySelector(
                     ".incubator-id"
                 );
 
+
             if(
                 badge &&
                 badge.innerText.trim() === id
             ) {
 
-                index = i;
+                index =
+                    i;
 
             }
 
@@ -2507,9 +2918,12 @@ function updateUnitCard(id) {
 function updateKPIs() {
 
     const occupied =
-        Object.values(incubators)
+        Object.values(
+            incubators
+        )
         .filter(
-            u => u.occupied
+            u =>
+                u.occupied
         );
 
 
@@ -2540,42 +2954,56 @@ function updateKPIs() {
                 : null
         )
         .filter(
-            v => Number.isFinite(v)
+            v =>
+                Number.isFinite(v)
         );
 
 
     document
-        .getElementById("occupiedCount")
+        .getElementById(
+            "occupiedCount"
+        )
         .innerText =
         occupied.length;
 
 
     document
-        .getElementById("normalCount")
+        .getElementById(
+            "normalCount"
+        )
         .innerText =
         normal.length;
 
 
     document
-        .getElementById("alertCount")
+        .getElementById(
+            "alertCount"
+        )
         .innerText =
         alerts.length;
 
 
-    if(temperatures.length > 0) {
+    if(
+        temperatures.length > 0
+    ) {
 
         const average =
             temperatures.reduce(
-                (a,b) => a+b,
+                (a, b) =>
+                    a + b,
                 0
             ) /
             temperatures.length;
 
 
         document
-            .getElementById("averageTemp")
+            .getElementById(
+                "averageTemp"
+            )
             .innerText =
-            average.toFixed(1) + " °C";
+            average.toFixed(
+                1
+            ) + " °C";
 
     }
 
@@ -2589,27 +3017,40 @@ function updateKPIs() {
 function updateAlert(data) {
 
     const banner =
-        document.getElementById("alertBanner");
+        document.getElementById(
+            "alertBanner"
+        );
+
 
     const message =
-        document.getElementById("alertMessage");
+        document.getElementById(
+            "alertMessage"
+        );
+
 
     const incubatorId =
-        String(data.incubator_id);
+        String(
+            data.incubator_id
+        );
 
-
-    // -----------------------------------------
-    // Check alarm status for THIS incubator
-    // -----------------------------------------
 
     const overallAlarm =
-        Number(data.overall_alarm) === 1;
+        Number(
+            data.overall_alarm
+        ) === 1;
+
 
     const temperatureAlarm =
-        Number(data.temperature_alarm) === 1;
+        Number(
+            data.temperature_alarm
+        ) === 1;
+
 
     const movementAlarm =
-        Number(data.movement_alarm) === 1;
+        Number(
+            data.movement_alarm
+        ) === 1;
+
 
     const dislodged =
         data.dislodgement_flag === "1" ||
@@ -2624,27 +3065,33 @@ function updateAlert(data) {
         dislodged;
 
 
-    // -----------------------------------------
-    // ALARM ACTIVE FOR THIS INCUBATOR
-    // -----------------------------------------
-
-    if (isCritical) {
+    if(isCritical) {
 
         const temperature =
-            Number(data.baby_temperature_c);
+            Number(
+                data.baby_temperature_c
+            );
+
 
         let alarmText = "";
 
 
-        if (temperatureAlarm && movementAlarm) {
+        if(
+            temperatureAlarm &&
+            movementAlarm
+        ) {
 
-            if (temperature < 36.5) {
+            if(
+                temperature < 36.5
+            ) {
 
                 alarmText =
                     "low temperature and movement alarm";
 
             }
-            else if (temperature > 37.5) {
+            else if(
+                temperature > 37.5
+            ) {
 
                 alarmText =
                     "high temperature and movement alarm";
@@ -2654,19 +3101,26 @@ function updateAlert(data) {
 
                 alarmText =
                     "temperature and movement alarm";
+
             }
 
         }
 
-        else if (temperatureAlarm) {
+        else if(
+            temperatureAlarm
+        ) {
 
-            if (temperature < 36.5) {
+            if(
+                temperature < 36.5
+            ) {
 
                 alarmText =
                     "low temperature alarm";
 
             }
-            else if (temperature > 37.5) {
+            else if(
+                temperature > 37.5
+            ) {
 
                 alarmText =
                     "high temperature alarm";
@@ -2676,18 +3130,23 @@ function updateAlert(data) {
 
                 alarmText =
                     "temperature alarm";
+
             }
 
         }
 
-        else if (movementAlarm) {
+        else if(
+            movementAlarm
+        ) {
 
             alarmText =
                 "movement alarm";
 
         }
 
-        else if (dislodged) {
+        else if(
+            dislodged
+        ) {
 
             alarmText =
                 "probe dislodgement alarm";
@@ -2698,84 +3157,106 @@ function updateAlert(data) {
 
             alarmText =
                 "overall alarm";
+
         }
 
 
-        // Convert INC004 → Incubator 4
         const number =
-            incubatorId.replace(/\D/g, "");
+            incubatorId.replace(
+                /\D/g,
+                ""
+            );
+
 
         const incubatorName =
-            `Incubator ${parseInt(number, 10)}`;
+            `Incubator ${parseInt(
+                number,
+                10
+            )}`;
 
 
-        // Remember this incubator's alarm
-        activeIncubatorAlarms[incubatorId] = {
+        activeIncubatorAlarms[
+            incubatorId
+        ] = {
+
             message:
                 `${incubatorName} ${alarmText}`
+
         };
 
     }
-
-
-    // -----------------------------------------
-    // NO ALARM FOR THIS INCUBATOR
-    // -----------------------------------------
-
     else {
 
-        // Remove ONLY this incubator's alarm
-        delete activeIncubatorAlarms[incubatorId];
+        delete activeIncubatorAlarms[
+            incubatorId
+        ];
 
     }
 
-
-    // -----------------------------------------
-    // CHECK IF ANY INCUBATOR STILL HAS ALARM
-    // -----------------------------------------
 
     const activeAlarms =
-        Object.values(activeIncubatorAlarms);
+        Object.values(
+            activeIncubatorAlarms
+        );
 
 
-    if (activeAlarms.length === 0) {
+    if(
+        activeAlarms.length === 0
+    ) {
 
-        banner.classList.remove("active");
+        banner
+            .classList
+            .remove("active");
 
-        message.innerText = "";
+
+        message.innerText =
+            "";
+
 
         return;
+
     }
 
-
-    // -----------------------------------------
-    // KEEP RED BOX VISIBLE
-    // -----------------------------------------
 
     message.innerText =
         activeAlarms[0].message;
 
-    banner.classList.add("active");
+
+    banner
+        .classList
+        .add("active");
+
 }
+
 
 /* -------------------------------------------------
    EVENTS
 ------------------------------------------------- */
 
 function addEvent(data) {
-        // Show only abnormal/alarming events
+
     const temperatureAlarm =
-        Number(data.temperature_alarm) === 1;
+        Number(
+            data.temperature_alarm
+        ) === 1;
+
 
     const movementAlarm =
-        Number(data.movement_alarm) === 1;
+        Number(
+            data.movement_alarm
+        ) === 1;
+
 
     const overallAlarm =
-        Number(data.overall_alarm) === 1;
+        Number(
+            data.overall_alarm
+        ) === 1;
+
 
     const dislodged =
         data.dislodgement_flag === "1" ||
         data.dislodgement_flag === true;
+
 
     const isAbnormal =
         temperatureAlarm ||
@@ -2783,11 +3264,11 @@ function addEvent(data) {
         overallAlarm ||
         dislodged;
 
-    // Ignore normal telemetry
-    if (!isAbnormal) {
+
+    if(!isAbnormal)
         return;
-    }
-    
+
+
     const list =
         document.getElementById(
             "eventList"
@@ -2795,7 +3276,10 @@ function addEvent(data) {
 
 
     const event =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     event.className =
         "event";
@@ -2806,46 +3290,58 @@ function addEvent(data) {
         <div class="event-head">
 
             <span>
-                ${data.incubator_id} ·
+
+                ${data.incubator_id}
+                ·
                 ${data.state || "NORMAL"}
+
             </span>
 
             <span class="event-time">
-                ${formatDateTime(data.timestamp)}
+
+                ${formatDateTime(
+                    data.timestamp
+                )}
+
             </span>
 
         </div>
 
+
         <div class="event-message">
 
-    ${
-        data.overall_alarm === 1
-        ? `Overall Alarm — ${
-            data.temperature_alarm === 1
-            ? "Temperature Alarm"
-            : ""
-        }${
-            data.temperature_alarm === 1 &&
-            data.movement_alarm === 1
-            ? " + "
-            : ""
-        }${
-            data.movement_alarm === 1
-            ? "Movement Alarm"
-            : ""
-        }`
-        : "Telemetry operating normally."
-    }
+            ${
+                data.overall_alarm === 1
+                ? `Overall Alarm — ${
+                    data.temperature_alarm === 1
+                    ? "Temperature Alarm"
+                    : ""
+                }${
+                    data.temperature_alarm === 1 &&
+                    data.movement_alarm === 1
+                    ? " + "
+                    : ""
+                }${
+                    data.movement_alarm === 1
+                    ? "Movement Alarm"
+                    : ""
+                }`
+                : "Telemetry operating normally."
+            }
 
-</div>
+        </div>
 
     `;
 
 
-    list.prepend(event);
+    list.prepend(
+        event
+    );
 
 
-    while(list.children.length > 8) {
+    while(
+        list.children.length > 8
+    ) {
 
         list.removeChild(
             list.lastChild
@@ -2864,20 +3360,30 @@ function openModal() {
 
     updateIncubatorOptions();
 
+
     document
-        .getElementById("babyModal")
-        .classList.add("active");
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .add("active");
 
 }
 
 
 function openModalFor(id) {
 
-    updateIncubatorOptions(id);
+    updateIncubatorOptions(
+        id
+    );
+
 
     document
-        .getElementById("babyModal")
-        .classList.add("active");
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .add("active");
 
 }
 
@@ -2885,8 +3391,11 @@ function openModalFor(id) {
 function closeModal() {
 
     document
-        .getElementById("babyModal")
-        .classList.remove("active");
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .remove("active");
 
 }
 
@@ -2901,13 +3410,23 @@ function updateIncubatorOptions(
         );
 
 
-    select.innerHTML = "";
+    select.innerHTML =
+        "";
 
 
-    for(let i = 1; i <= MAX_INCUBATORS; i++) {
+    for(
+        let i = 1;
+        i <= MAX_INCUBATORS;
+        i++
+    ) {
 
         const id =
-            "INC-" + String(i).padStart(3,"0");
+            "INC-" +
+            String(i)
+                .padStart(
+                    3,
+                    "0"
+                );
 
 
         if(
@@ -2920,7 +3439,10 @@ function updateIncubatorOptions(
                     "option"
                 );
 
-            option.value = id;
+
+            option.value =
+                id;
+
 
             option.innerText =
                 id +
@@ -2930,7 +3452,10 @@ function updateIncubatorOptions(
                     : " — Available"
                 );
 
-            select.appendChild(option);
+
+            select.appendChild(
+                option
+            );
 
         }
 
@@ -2943,49 +3468,63 @@ function registerBaby() {
 
     const name =
         document
-        .getElementById("babyName")
+        .getElementById(
+            "babyName"
+        )
         .value
         .trim();
 
 
     const babyId =
         document
-        .getElementById("babyId")
+        .getElementById(
+            "babyId"
+        )
         .value
         .trim();
 
 
     const age =
         document
-        .getElementById("babyAge")
+        .getElementById(
+            "babyAge"
+        )
         .value
         .trim();
 
 
     const weight =
         document
-        .getElementById("babyWeight")
+        .getElementById(
+            "babyWeight"
+        )
         .value
         .trim();
 
 
     const doctor =
         document
-        .getElementById("doctorName")
+        .getElementById(
+            "doctorName"
+        )
         .value
         .trim();
 
 
     const notes =
         document
-        .getElementById("babyNotes")
+        .getElementById(
+            "babyNotes"
+        )
         .value
         .trim();
 
 
     const incubator =
         document
-        .getElementById("incubatorSelect")
+        .getElementById(
+            "incubatorSelect"
+        )
         .value;
 
 
@@ -3020,15 +3559,18 @@ function registerBaby() {
 
 
     incubators[incubator].babyId =
-        babyId || "Not Assigned";
+        babyId ||
+        "Not Assigned";
 
 
     incubators[incubator].age =
-        age || "--";
+        age ||
+        "--";
 
 
     incubators[incubator].weight =
-        weight || "--";
+        weight ||
+        "--";
 
 
     incubators[incubator].doctor =
@@ -3038,26 +3580,78 @@ function registerBaby() {
     incubators[incubator].notes =
         notes;
 
+
     incubators[incubator].admittedAt =
         new Date().toISOString();
-    incubators[incubator].manualRegistration = true;
-    incubators[incubator].data = null;
-    incubators[incubator].state = "NORMAL";
+
+
+    incubators[incubator].manualRegistration =
+        true;
+
+
+    incubators[incubator].data =
+        null;
+
+
+    incubators[incubator].state =
+        "NORMAL";
+
+
+    incubators[incubator].alarmActive =
+        false;
+
 
     babyHistory.push({
-        babyId: incubators[incubator].babyId,
-        babyName: incubators[incubator].babyName,
-        incubatorId: incubator,
-        age: incubators[incubator].age,
-        weight: incubators[incubator].weight,
-        doctor: incubators[incubator].doctor,
-        notes: incubators[incubator].notes,
-        admittedAt: incubators[incubator].admittedAt,
-        dischargedAt: null,
-        status: "ADMITTED"
+
+        babyId:
+            incubators[
+                incubator
+            ].babyId,
+
+        babyName:
+            incubators[
+                incubator
+            ].babyName,
+
+        incubatorId:
+            incubator,
+
+        age:
+            incubators[
+                incubator
+            ].age,
+
+        weight:
+            incubators[
+                incubator
+            ].weight,
+
+        doctor:
+            incubators[
+                incubator
+            ].doctor,
+
+        notes:
+            incubators[
+                incubator
+            ].notes,
+
+        admittedAt:
+            incubators[
+                incubator
+            ].admittedAt,
+
+        dischargedAt:
+            null,
+
+        status:
+            "ADMITTED"
+
     });
 
+
     persistIncubatorAssignments();
+
     saveBabyHistory();
 
 
@@ -3075,121 +3669,424 @@ function registerBaby() {
 ------------------------------------------------- */
 
 function saveBabyHistory() {
-    localStorage.setItem("neoCareBabyHistory", JSON.stringify(babyHistory));
+
+    localStorage.setItem(
+        "neoCareBabyHistory",
+        JSON.stringify(
+            babyHistory
+        )
+    );
+
 }
+
 
 function dischargeBaby(id) {
-    const unit = incubators[id];
-    if(!unit || !unit.occupied) return;
 
-    if(!confirm(`Discharge ${unit.babyName || "this baby"} from ${id}?`)) return;
+    const unit =
+        incubators[id];
 
-    const dischargedAt = new Date().toISOString();
-    let record = null;
 
-    for(let i = babyHistory.length - 1; i >= 0; i--) {
-        if(babyHistory[i].incubatorId === id && babyHistory[i].status === "ADMITTED") {
-            record = babyHistory[i];
+    if(
+        !unit ||
+        !unit.occupied
+    )
+        return;
+
+
+    if(
+        !confirm(
+            `Discharge ${
+                unit.babyName ||
+                "this baby"
+            } from ${id}?`
+        )
+    )
+        return;
+
+
+    const dischargedAt =
+        new Date().toISOString();
+
+
+    let record =
+        null;
+
+
+    for(
+        let i =
+            babyHistory.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        if(
+            babyHistory[i]
+                .incubatorId === id &&
+            babyHistory[i]
+                .status === "ADMITTED"
+        ) {
+
+            record =
+                babyHistory[i];
+
             break;
+
         }
+
     }
+
 
     if(!record) {
+
         record = {
-            babyId: unit.babyId || "Not Assigned",
-            babyName: unit.babyName || "Unknown",
-            incubatorId: id,
-            age: unit.age || "--",
-            weight: unit.weight || "--",
-            doctor: unit.doctor || "",
-            notes: unit.notes || "",
-            admittedAt: unit.admittedAt || null,
-            dischargedAt: null,
-            status: "ADMITTED"
+
+            babyId:
+                unit.babyId ||
+                "Not Assigned",
+
+            babyName:
+                unit.babyName ||
+                "Unknown",
+
+            incubatorId:
+                id,
+
+            age:
+                unit.age ||
+                "--",
+
+            weight:
+                unit.weight ||
+                "--",
+
+            doctor:
+                unit.doctor ||
+                "",
+
+            notes:
+                unit.notes ||
+                "",
+
+            admittedAt:
+                unit.admittedAt ||
+                null,
+
+            dischargedAt:
+                null,
+
+            status:
+                "ADMITTED"
+
         };
-        babyHistory.push(record);
+
+
+        babyHistory.push(
+            record
+        );
+
     }
 
-    record.dischargedAt = dischargedAt;
-    record.status = "DISCHARGED";
 
-    unit.occupied = false;
-    unit.babyName = "";
-    unit.babyId = "";
-    unit.age = "";
-    unit.weight = "";
-    unit.doctor = "";
-    unit.notes = "";
-    unit.admittedAt = null;
-    unit.manualRegistration = false;
-    unit.data = null;
-    unit.state = "NORMAL";
+    record.dischargedAt =
+        dischargedAt;
 
-    history[id] = [];
+
+    record.status =
+        "DISCHARGED";
+
+
+    unit.occupied =
+        false;
+
+
+    unit.babyName =
+        "";
+
+
+    unit.babyId =
+        "";
+
+
+    unit.age =
+        "";
+
+
+    unit.weight =
+        "";
+
+
+    unit.doctor =
+        "";
+
+
+    unit.notes =
+        "";
+
+
+    unit.admittedAt =
+        null;
+
+
+    unit.manualRegistration =
+        false;
+
+
+    unit.data =
+        null;
+
+
+    unit.state =
+        "NORMAL";
+
+
+    unit.alarmActive =
+        false;
+
+
+    history[id] =
+        [];
+
+
+    delete activeIncubatorAlarms[
+        id
+    ];
+
+
+    lastAlarmState[id] =
+        null;
+
 
     if(charts[id]) {
-        charts[id].skin.destroy();
-        charts[id].movement.destroy();
+
+        charts[id]
+            .skin
+            .destroy();
+
+
+        charts[id]
+            .movement
+            .destroy();
+
+
         delete charts[id];
+
     }
+
 
     persistIncubatorAssignments();
+
     saveBabyHistory();
+
     renderDashboard();
+
     renderHistory();
+
 }
+
 
 function clearBabyHistory() {
-    if(babyHistory.length === 0) return;
-    if(!confirm("Clear all baby admission/discharge history?")) return;
-    babyHistory = [];
+
+    if(
+        babyHistory.length === 0
+    )
+        return;
+
+
+    if(
+        !confirm(
+            "Clear all baby admission/discharge history?"
+        )
+    )
+        return;
+
+
+    babyHistory =
+        [];
+
+
     saveBabyHistory();
+
     renderHistory();
+
 }
+
 
 function renderHistory() {
-    const container = document.getElementById("historyTableContainer");
-    if(!container) return;
 
-    if(babyHistory.length === 0) {
-        container.innerHTML = '<div class="history-empty">No patient history yet.</div>';
+    const container =
+        document.getElementById(
+            "historyTableContainer"
+        );
+
+
+    if(!container)
         return;
+
+
+    if(
+        babyHistory.length === 0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="history-empty">
+                No patient history yet.
+            </div>
+            `;
+
+        return;
+
     }
 
-    const rows = [...babyHistory].reverse().map(record => `
+
+    const rows =
+        [
+            ...babyHistory
+        ]
+        .reverse()
+        .map(
+            record => `
+
         <tr>
-            <td>${escapeHtml(record.babyId || "--")}</td>
-            <td>${escapeHtml(record.babyName || "--")}</td>
-            <td>${escapeHtml(record.incubatorId || "--")}</td>
-            <td>${formatDateTime(record.admittedAt)}</td>
-            <td>${record.dischargedAt ? formatDateTime(record.dischargedAt) : "--"}</td>
-            <td><span class="history-status ${record.status === "ADMITTED" ? "active" : "discharged"}">${record.status}</span></td>
+
+            <td>
+                ${escapeHtml(
+                    record.babyId ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    record.babyName ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    record.incubatorId ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${formatDateTime(
+                    record.admittedAt
+                )}
+            </td>
+
+            <td>
+                ${
+                    record.dischargedAt
+                    ? formatDateTime(
+                        record.dischargedAt
+                    )
+                    : "--"
+                }
+            </td>
+
+            <td>
+
+                <span
+                    class="history-status ${
+                        record.status === "ADMITTED"
+                        ? "active"
+                        : "discharged"
+                    }"
+                >
+                    ${record.status}
+                </span>
+
+            </td>
+
         </tr>
-    `).join("");
+
+        `
+        )
+        .join("");
+
 
     container.innerHTML = `
+
         <div class="history-table-wrap">
+
             <table class="history-table">
-                <thead><tr>
-                    <th>Baby ID</th>
-                    <th>Baby Name</th>
-                    <th>Incubator</th>
-                    <th>Admission Time</th>
-                    <th>Discharge Time</th>
-                    <th>Status</th>
-                </tr></thead>
-                <tbody>${rows}</tbody>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Baby ID
+                        </th>
+
+                        <th>
+                            Baby Name
+                        </th>
+
+                        <th>
+                            Incubator
+                        </th>
+
+                        <th>
+                            Admission Time
+                        </th>
+
+                        <th>
+                            Discharge Time
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+
             </table>
-        </div>`;
+
+        </div>
+
+    `;
+
 }
 
+
 function escapeHtml(value) {
+
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
 
@@ -3200,33 +4097,51 @@ function escapeHtml(value) {
 function clearForm() {
 
     document
-        .getElementById("babyName")
-        .value = "";
+        .getElementById(
+            "babyName"
+        )
+        .value =
+        "";
 
 
     document
-        .getElementById("babyId")
-        .value = "";
+        .getElementById(
+            "babyId"
+        )
+        .value =
+        "";
 
 
     document
-        .getElementById("babyAge")
-        .value = "";
+        .getElementById(
+            "babyAge"
+        )
+        .value =
+        "";
 
 
     document
-        .getElementById("babyWeight")
-        .value = "";
+        .getElementById(
+            "babyWeight"
+        )
+        .value =
+        "";
 
 
     document
-        .getElementById("doctorName")
-        .value = "";
+        .getElementById(
+            "doctorName"
+        )
+        .value =
+        "";
 
 
     document
-        .getElementById("babyNotes")
-        .value = "";
+        .getElementById(
+            "babyNotes"
+        )
+        .value =
+        "";
 
 }
 
@@ -3253,7 +4168,9 @@ function formatNumber(value) {
     }
 
 
-    return number.toFixed(2);
+    return number.toFixed(
+        2
+    );
 
 }
 
@@ -3268,7 +4185,11 @@ function formatTime(timestamp) {
         new Date(timestamp);
 
 
-    if(Number.isNaN(date.getTime()))
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    )
         return timestamp;
 
 
@@ -3287,14 +4208,19 @@ function formatTime(timestamp) {
 function formatDateTime(timestamp) {
 
     if(!timestamp)
-        return new Date().toLocaleTimeString();
+        return new Date()
+            .toLocaleTimeString();
 
 
     const date =
         new Date(timestamp);
 
 
-    if(Number.isNaN(date.getTime()))
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    )
         return timestamp;
 
 
@@ -3310,10 +4236,12 @@ function formatDateTime(timestamp) {
 initializeUnits();
 
 renderDashboard();
+
 renderHistory();
 
 connectWebSocket();
 
 </script>
+
 </body>
 </html>
