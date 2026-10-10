@@ -1,0 +1,3802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NeoCare - Neonatal Monitoring</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f8fc;
+    color: #172033;
+}
+
+button {
+    font-family: inherit;
+}
+
+.header {
+    background: white;
+    border-bottom: 1px solid #e4e9f0;
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #eaf3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.brand-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.brand-subtitle {
+    font-size: 12px;
+    color: #718096;
+    margin-top: 3px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.simulation-badge {
+    padding: 8px 13px;
+    border-radius: 18px;
+    background: #fff6e8;
+    color: #c87800;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #ffd99a;
+}
+
+.connection-badge {
+    padding: 8px 13px;
+    border-radius: 18px;
+    background: #ecfff7;
+    color: #00875a;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.register-btn {
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background: #1d4ed8;
+}
+
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 28px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    color: #718096;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+/* ALERT */
+
+.alert-banner {
+    display: none;
+    background: #fff0f1;
+    border: 1px solid #ffb8bd;
+    border-left: 5px solid #ef3340;
+    border-radius: 9px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+}
+
+.alert-banner.active {
+    display: block;
+}
+
+.alert-title {
+    color: #c81e2b;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.alert-message {
+    color: #b32631;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* KPI */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.kpi {
+    background: white;
+    border: 1px solid #e5eaf0;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(20, 35, 55, 0.04);
+}
+
+.kpi-label {
+    color: #667085;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.kpi-value {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 9px;
+}
+
+.kpi-small {
+    color: #8792a2;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.green {
+    color: #00875a;
+}
+
+.red {
+    color: #dc2626;
+}
+
+.orange {
+    color: #d97706;
+}
+
+/* SECTION */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-title h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.section-title p {
+    margin: 4px 0 0;
+    color: #718096;
+    font-size: 12px;
+}
+
+.legend {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+}
+
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot.normal {
+    background: #10b981;
+}
+
+.dot.warning {
+    background: #f59e0b;
+}
+
+.dot.critical {
+    background: #ef4444;
+}
+
+/* GRID */
+
+.incubator-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+/* CARD */
+
+.incubator-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(20, 35, 55, 0.04);
+}
+
+.incubator-card.critical {
+    border-color: #ff9da5;
+}
+
+.incubator-card.warning {
+    border-color: #ffd27d;
+}
+
+.card-header {
+    padding: 13px 16px;
+    border-bottom: 1px solid #edf1f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.baby-info {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.incubator-id {
+    background: #eef3f8;
+    padding: 7px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.baby-name {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.baby-details {
+    font-size: 10px;
+    color: #8993a3;
+    margin-top: 3px;
+}
+
+.status {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status.normal {
+    color: #00875a;
+}
+
+.status.warning {
+    color: #d97706;
+}
+
+.status.critical {
+    color: #dc2626;
+}
+
+.status.recovered {
+    color: #2563eb;
+}
+
+/* VALUES */
+
+.card-body {
+    padding: 14px 16px 16px;
+}
+
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin-bottom: 12px;
+}
+
+.value-box {
+    background: #f7f9fb;
+    border: 1px solid #e7edf3;
+    border-radius: 8px;
+    padding: 11px;
+}
+
+.value-label {
+    font-size: 9px;
+    color: #718096;
+    text-transform: uppercase;
+}
+
+.value {
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.value-unit {
+    font-size: 9px;
+    font-weight: normal;
+}
+
+/* SENSOR DETAILS */
+
+.sensor-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #edf1f5;
+    font-size: 10px;
+}
+
+.sensor-row:last-child {
+    border-bottom: none;
+}
+
+.sensor-label {
+    color: #718096;
+}
+
+.sensor-value {
+    font-weight: 600;
+}
+
+/* CHART */
+
+.chart-section {
+    margin-top: 12px;
+}
+
+.chart-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.chart-container {
+    height: 125px;
+    background: #f8fafc;
+    border: 1px solid #edf1f5;
+    border-radius: 7px;
+    padding: 6px;
+    cursor: crosshair;
+}
+
+.chart-click-info {
+    margin-top: 7px;
+    min-height: 27px;
+    padding: 6px 9px;
+    border-radius: 5px;
+    background: #f5f8fc;
+    color: #607087;
+    font-size: 9px;
+}
+
+.chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* EMPTY */
+
+.empty-card {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px dashed #d6dee8;
+    border-radius: 12px;
+}
+
+.empty-content {
+    text-align: center;
+    color: #7b8797;
+}
+
+.empty-icon {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.empty-title {
+    font-weight: 700;
+    color: #475467;
+}
+
+.empty-text {
+    font-size: 12px;
+    margin: 7px 0 15px;
+}
+
+/* PATIENT ACTIONS */
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #edf1f5;
+}
+
+.discharge-btn {
+    border: none;
+    background: #dc2626;
+    color: white;
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.discharge-btn:hover {
+    background: #b91c1c;
+}
+
+/* PATIENT HISTORY */
+
+.history-panel {
+    margin-top: 22px;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.history-header h3 {
+    margin: 0;
+}
+
+.clear-history-btn {
+    border: 1px solid #d5dce5;
+    background: white;
+    color: #475467;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.history-table-wrap {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 10px 9px;
+    border-bottom: 1px solid #edf1f5;
+    text-align: left;
+    font-size: 10px;
+}
+
+.history-table th {
+    color: #667085;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    background: #f7f9fb;
+}
+
+.history-status {
+    font-weight: 700;
+}
+
+.history-status.active {
+    color: #00875a;
+}
+
+.history-status.discharged {
+    color: #475467;
+}
+
+.history-empty {
+    color: #8792a2;
+    font-size: 11px;
+    padding: 14px 0;
+}
+
+/* BOTTOM */
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1.3fr .9fr;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.panel h3 {
+    margin: 0 0 14px;
+    font-size: 16px;
+}
+
+.event {
+    border-bottom: 1px solid #edf1f5;
+    padding: 10px 0;
+}
+
+.event:last-child {
+    border-bottom: none;
+}
+
+.event-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.event-time {
+    color: #9aa4b2;
+    font-size: 9px;
+}
+
+.event-message {
+    color: #718096;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.system-row {
+    display: flex;
+    justify-content: space-between;
+    background: #f7f9fb;
+    padding: 10px;
+    margin-bottom: 7px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.system-ok {
+    color: #00875a;
+    font-weight: 700;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    color: #9aa4b2;
+    font-size: 10px;
+    padding: 25px;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: 480px;
+    max-width: 94%;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.close-btn {
+    border: none;
+    background: transparent;
+    font-size: 23px;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 11px;
+    color: #475467;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    border: 1px solid #d7dee8;
+    border-radius: 6px;
+    padding: 10px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2563eb;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cancel-btn {
+    border: 1px solid #d5dce5;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.save-btn {
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 10px 17px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+@media(max-width: 900px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .incubator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    .header {
+        padding: 12px;
+    }
+
+    .header-right {
+        gap: 5px;
+    }
+
+    .simulation-badge {
+        display: none;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+}
+
+/* =========================================================
+   NeoCare — Brighter Navy + Blue + Cyan Color Theme
+   COLOR CHANGES ONLY
+   ========================================================= */
+
+:root {
+    --neo-navy: #073B66;
+    --neo-blue: #1683E8;
+    --neo-cyan: #00B8D9;
+    --neo-normal: #12B981;
+    --neo-warning: #FFAA00;
+    --neo-critical: #F04444;
+    --neo-background: #F1F7FF;
+    --neo-border: #CFE0F2;
+    --neo-text: #334155;
+    --neo-muted: #5B6B82;
+}
+
+body {
+    background: var(--neo-background);
+}
+
+.header {
+    background: #FFFFFF;
+    border-bottom-color: var(--neo-border);
+}
+
+.brand-title {
+    color: var(--neo-navy);
+}
+
+.brand-icon {
+    color: var(--neo-blue);
+}
+
+.page-title {
+    color: var(--neo-navy);
+}
+
+.page-subtitle {
+    color: var(--neo-muted);
+}
+
+.register-btn,
+.save-btn {
+    background: var(--neo-blue);
+}
+
+.connection-badge.connected {
+    color: var(--neo-cyan);
+}
+
+.brand-accent,
+.cyan,
+.status-cyan {
+    color: var(--neo-cyan);
+}
+
+.kpi {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.kpi-value.green,
+.green,
+.status.normal,
+.system-ok {
+    color: var(--neo-normal);
+}
+
+.kpi-value.red,
+.red,
+.status.critical {
+    color: var(--neo-critical);
+}
+
+.orange,
+.status.warning {
+    color: var(--neo-warning);
+}
+
+.incubator-card {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.incubator-id {
+    background: #EAF4FF;
+    color: var(--neo-navy);
+}
+
+.dot.normal {
+    background: var(--neo-normal);
+}
+
+.dot.warning {
+    background: var(--neo-warning);
+}
+
+.dot.critical {
+    background: var(--neo-critical);
+}
+
+.value-box {
+    background: #F8FBFF;
+    border-color: var(--neo-border);
+}
+
+.chart-container {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.chart-click-info {
+    background: #F1F7FF;
+    color: var(--neo-muted);
+}
+
+.panel {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.panel h3 {
+    color: var(--neo-navy);
+}
+
+.system-row {
+    background: #F8FBFF;
+    border-color: var(--neo-border);
+}
+
+.empty-card {
+    background: #FFFFFF;
+    border-color: var(--neo-border);
+}
+
+.empty-title {
+    color: var(--neo-navy);
+}
+
+.history-table {
+    border-color: var(--neo-border);
+}
+
+.history-table th {
+    background: #EAF4FF;
+    color: var(--neo-navy);
+}
+
+.history-table td {
+    border-color: var(--neo-border);
+}
+
+.form-group input,
+.form-group select {
+    border-color: var(--neo-border);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--neo-blue);
+}
+
+.cancel-btn {
+    border-color: var(--neo-border);
+}
+
+.alert-banner {
+    border-color: var(--neo-critical);
+}
+
+.alert-title {
+    color: var(--neo-critical);
+}
+
+.status.critical {
+    color: var(--neo-critical);
+}
+
+.status.warning {
+    color: var(--neo-warning);
+}
+
+.status.normal {
+    color: var(--neo-normal);
+}
+
+/* =========================================================
+   ACTIVE INCUBATOR ALARM HIGHLIGHT
+   ========================================================= */
+
+.incubator-card.alarm-active {
+    border: 3px solid #dc2626 !important;
+    background: #fff7f7 !important;
+    box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.12),
+        0 4px 18px rgba(220, 38, 38, 0.18);
+    position: relative;
+}
+
+.incubator-card.alarm-active::after {
+    content: "⚠ ALARM";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    background: #dc2626;
+    color: #fff;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+.incubator-card.alarm-active .card-header {
+    background: #fff1f2;
+    border-bottom-color: #fecaca;
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+        <div class="brand-icon">♙</div>
+
+        <div>
+            <div class="brand-title">NeoCare</div>
+        </div>
+    </div>
+
+    <div class="header-right">
+
+        <div class="simulation-badge">
+            SIMULATION MODE
+        </div>
+
+        <div id="connectionBadge" class="connection-badge">
+            🔴 Disconnected
+        </div>
+
+        <button class="register-btn" onclick="openModal()">
+            + Register New Baby / Assign Incubator
+        </button>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="page-title">
+        NICU Incubator Monitoring Dashboard
+    </div>
+
+    <div id="alertBanner" class="alert-banner">
+
+        <div class="alert-title">
+            🚨 CRITICAL SENSOR ALERT
+        </div>
+
+        <div id="alertMessage" class="alert-message">
+            Sensor dislodgement detected.
+        </div>
+
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi">
+            <div class="kpi-label">Occupied Incubators</div>
+            <div id="occupiedCount" class="kpi-value">4</div>
+            <div class="kpi-small">Maximum capacity: 10</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Stable Units</div>
+            <div id="normalCount" class="kpi-value green">4</div>
+            <div class="kpi-small">Current telemetry state</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Active Alerts</div>
+            <div id="alertCount" class="kpi-value red">0</div>
+            <div class="kpi-small">Warning / critical states</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Average Skin Temperature</div>
+            <div id="averageTemp" class="kpi-value">--</div>
+            <div class="kpi-small">°C — simulated telemetry</div>
+        </div>
+
+    </div>
+
+    <div class="section-title">
+
+        <div>
+            <h2>Incubator Unit Grid</h2>
+        </div>
+
+        <div class="legend">
+            <span>
+                <i class="dot normal"></i> Normal
+            </span>
+
+            <span>
+                <i class="dot warning"></i> Warning
+            </span>
+
+            <span>
+                <i class="dot critical"></i> Critical
+            </span>
+        </div>
+
+    </div>
+
+    <div id="incubatorGrid" class="incubator-grid"></div>
+
+    <div class="bottom-grid">
+
+        <div class="panel">
+
+            <h3>Recent Events</h3>
+
+            <div id="eventList">
+                <div class="event">
+                    Waiting for telemetry...
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>System Status</h3>
+
+            <div class="system-row">
+                <span>WebSocket Connection</span>
+                <span id="wsStatus" class="system-ok">CONNECTING</span>
+            </div>
+
+            <div class="system-row">
+                <span>Data Source</span>
+                <span class="system-ok">MOCK DATASET</span>
+            </div>
+
+            <div class="system-row">
+                <span>Detection Engine</span>
+                <span class="system-ok">ACTIVE</span>
+            </div>
+
+            <div class="system-row">
+                <span>Simulation Stream</span>
+                <span class="system-ok">ACTIVE</span>
+            </div>
+
+            <div class="system-row">
+                <span>Last Update</span>
+                <span id="lastUpdate">--</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="panel history-panel">
+
+    <div class="history-header">
+
+        <h3>Baby Admission / Discharge History</h3>
+
+        <button
+            class="clear-history-btn"
+            onclick="clearBabyHistory()"
+        >
+            Clear History
+        </button>
+
+    </div>
+
+    <div id="historyTableContainer">
+        <div class="history-empty">
+            No patient history yet.
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    NeoCare Software Prototype • Simulation Data Only • Not for Clinical or Patient-Care Use
+</div>
+
+<div id="babyModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Register New Baby</h2>
+
+            <button
+                class="close-btn"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Baby Name</label>
+                <input
+                    id="babyName"
+                    placeholder="Enter baby name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Baby ID</label>
+                <input
+                    id="babyId"
+                    placeholder="Example: B005"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Gestational Age</label>
+                <input
+                    id="babyAge"
+                    placeholder="Example: 31 weeks"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Weight</label>
+                <input
+                    id="babyWeight"
+                    placeholder="Example: 1.45 kg"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Assign Incubator</label>
+
+                <select id="incubatorSelect"></select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Doctor / Care Team</label>
+
+                <input
+                    id="doctorName"
+                    placeholder="Optional"
+                >
+
+            </div>
+
+            <div class="form-group full">
+
+                <label>Notes</label>
+
+                <input
+                    id="babyNotes"
+                    placeholder="Optional notes"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="registerBaby()"
+            >
+                Register Baby
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const MAX_INCUBATORS = 10;
+
+const incubators = {};
+const charts = {};
+const history = {};
+let socket = null;
+
+let babyHistory = JSON.parse(
+    localStorage.getItem("neoCareBabyHistory") || "[]"
+);
+
+const SAVED_INCUBATORS_KEY =
+    "neoCareIncubatorAssignments";
+
+
+/* -------------------------------------------------
+   CREATE INITIAL 10 INCUBATOR SLOTS
+------------------------------------------------- */
+
+function initializeUnits() {
+
+    const saved = JSON.parse(
+        localStorage.getItem(
+            SAVED_INCUBATORS_KEY
+        ) || "null"
+    );
+
+    for(let i = 1; i <= MAX_INCUBATORS; i++) {
+
+        const id =
+            "INC-" + String(i).padStart(3, "0");
+
+        const savedUnit =
+            saved && saved[id];
+
+        incubators[id] = {
+
+            id: id,
+
+            occupied:
+                savedUnit
+                ? Boolean(savedUnit.occupied)
+                : i <= 4,
+
+            babyName:
+                savedUnit
+                ? (savedUnit.babyName || "")
+                : (
+                    i <= 4
+                    ? "Baby " + String(i).padStart(3, "0")
+                    : ""
+                ),
+
+            babyId:
+                savedUnit
+                ? (savedUnit.babyId || "")
+                : (
+                    i <= 4
+                    ? "B00" + i
+                    : ""
+                ),
+
+            age:
+                savedUnit
+                ? (savedUnit.age || "")
+                : (i <= 4 ? "--" : ""),
+
+            weight:
+                savedUnit
+                ? (savedUnit.weight || "")
+                : (i <= 4 ? "--" : ""),
+
+            doctor:
+                savedUnit
+                ? (savedUnit.doctor || "")
+                : "",
+
+            notes:
+                savedUnit
+                ? (savedUnit.notes || "")
+                : "",
+
+            admittedAt:
+                savedUnit
+                ? (savedUnit.admittedAt || null)
+                : null,
+
+            manualRegistration:
+                savedUnit
+                ? Boolean(savedUnit.manualRegistration)
+                : false,
+
+            data: null,
+
+            state: "NORMAL",
+
+            alarmActive: false
+        };
+
+        history[id] = [];
+
+    }
+
+    renderHistory();
+
+}
+
+
+function persistIncubatorAssignments() {
+
+    const saved = {};
+
+    Object.keys(incubators).forEach(id => {
+
+        const unit =
+            incubators[id];
+
+        saved[id] = {
+
+            occupied:
+                unit.occupied,
+
+            babyName:
+                unit.babyName,
+
+            babyId:
+                unit.babyId,
+
+            age:
+                unit.age,
+
+            weight:
+                unit.weight,
+
+            doctor:
+                unit.doctor,
+
+            notes:
+                unit.notes,
+
+            admittedAt:
+                unit.admittedAt || null,
+
+            manualRegistration:
+                Boolean(unit.manualRegistration)
+
+        };
+
+    });
+
+    localStorage.setItem(
+        SAVED_INCUBATORS_KEY,
+        JSON.stringify(saved)
+    );
+
+}
+
+
+/* -------------------------------------------------
+   RENDER DASHBOARD
+------------------------------------------------- */
+
+function renderDashboard() {
+
+    const grid =
+        document.getElementById(
+            "incubatorGrid"
+        );
+
+    grid.innerHTML = "";
+
+    for(let i = 1; i <= MAX_INCUBATORS; i++) {
+
+        const id =
+            "INC-" +
+            String(i).padStart(3, "0");
+
+        if(incubators[id].occupied) {
+
+            grid.appendChild(
+                createBabyCard(id)
+            );
+
+        }
+        else {
+
+            grid.appendChild(
+                createEmptyCard(id)
+            );
+
+        }
+
+    }
+
+    updateKPIs();
+
+}
+
+
+/* -------------------------------------------------
+   EMPTY INCUBATOR
+------------------------------------------------- */
+
+function createEmptyCard(id) {
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "empty-card";
+
+    div.innerHTML = `
+
+        <div class="empty-content">
+
+            <div class="empty-icon">
+                ＋
+            </div>
+
+            <div class="empty-title">
+                ${id} Available
+            </div>
+
+            <div class="empty-text">
+                No baby assigned to this incubator
+            </div>
+
+            <button
+                class="register-btn"
+                onclick="openModalFor('${id}')"
+            >
+                Register Baby
+            </button>
+
+        </div>
+
+    `;
+
+    return div;
+
+}
+
+
+/* -------------------------------------------------
+   BABY CARD
+------------------------------------------------- */
+
+function isIncubatorAlarmActive(data, state) {
+
+return (
+    Boolean(getAlarmType(data)) ||
+    Number(data?.movement_alarm) === 1 ||
+    Number(data?.temperature_alarm) === 1 ||
+    Number(data?.overall_alarm) === 1 ||
+    data?.dislodgement_flag === "1" ||
+    data?.dislodgement_flag === true ||
+    state === "CRITICAL"
+);
+
+}
+
+
+function createBabyCard(id) {
+
+    const unit =
+        incubators[id];
+
+    const d =
+        unit.data || {
+
+            skin_temperature_c: "--",
+
+            body_movements: "--",
+
+            movement_status: "--",
+
+            rate_of_change: "--",
+
+            sensor_status: "WAITING",
+
+            signal_quality: "--",
+
+            state: "NORMAL"
+
+        };
+
+
+    const state =
+        d.state ||
+        unit.state ||
+        "NORMAL";
+
+
+    unit.state =
+        state;
+
+
+    const alarmActive =
+        isIncubatorAlarmActive(
+            d,
+            state
+        );
+
+
+    unit.alarmActive =
+        alarmActive;
+
+
+    let cardClass =
+        "";
+
+
+    if(state === "CRITICAL")
+        cardClass = "critical";
+
+
+    if(state === "WARNING")
+        cardClass = "warning";
+
+
+    if(alarmActive) {
+
+        cardClass +=
+            (
+                cardClass
+                ? " "
+                : ""
+            ) + "alarm-active";
+
+    }
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "incubator-card " +
+        cardClass;
+
+
+    const statusClass =
+        state.toLowerCase();
+
+
+    div.innerHTML = `
+
+        <div class="card-header">
+
+            <div class="baby-info">
+
+                <div class="incubator-id">
+                    ${id}
+                </div>
+
+                <div>
+
+                    <div class="baby-name">
+                        ${unit.babyName || "Neonatal Unit"}
+                    </div>
+
+                    <div class="baby-details">
+
+                        ${
+                            unit.babyId
+                            ? unit.babyId
+                            : "No Baby ID"
+                        }
+
+                        ${
+                            unit.age
+                            ? " • " + unit.age
+                            : ""
+                        }
+
+                        ${
+                            unit.weight
+                            ? " • " + unit.weight
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="status ${statusClass}">
+                ${state}
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="value-grid">
+
+                <div class="value-box">
+
+                    <div class="value-label">
+                        Skin Temperature
+                    </div>
+
+                    <div class="value">
+
+                        ${
+                            formatNumber(
+                                d.skin_temperature_c
+                            )
+                        }
+
+                        <span class="value-unit">
+                            °C
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div class="value-label">
+                        Body Movements
+                    </div>
+
+                    <div class="value">
+
+                        ${
+                            formatNumber(
+                                d.body_movements
+                            )
+                        }
+
+                        <span class="value-unit">
+                            /min
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="value-box">
+
+                    <div class="value-label">
+                        Movement Status
+                    </div>
+
+                    <div class="value">
+
+                        ${
+                            d.movement_status || "--"
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="sensor-row">
+
+                <span class="sensor-label">
+                    Probe Status
+                </span>
+
+                <span class="sensor-value">
+                    ${
+                        d.sensor_status || "--"
+                    }
+                </span>
+
+            </div>
+
+
+            <div class="sensor-row">
+
+                <span class="sensor-label">
+                    Signal Quality
+                </span>
+
+                <span class="sensor-value">
+                    ${
+                        d.signal_quality || "--"
+                    }
+                </span>
+
+            </div>
+
+
+            <div class="sensor-row">
+
+                <span class="sensor-label">
+                    Temperature Rate
+                </span>
+
+                <span class="sensor-value">
+
+                    ${
+                        formatNumber(
+                            d.rate_of_change
+                        )
+                    }
+
+                    °C
+
+                </span>
+
+            </div>
+
+
+            <div class="chart-row">
+
+                <div class="chart-section">
+
+                    <div class="chart-title">
+
+                        <span>
+                            Skin Temperature Trend
+                        </span>
+
+                        <span>
+                            ${state}
+                        </span>
+
+                    </div>
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="skinChart-${id}"
+                        ></canvas>
+
+                    </div>
+
+                    <div
+                        id="skinInfo-${id}"
+                        class="chart-click-info"
+                    >
+                        Click a graph point to view the exact reading.
+                    </div>
+
+                </div>
+
+
+                <div class="chart-section">
+
+                    <div class="chart-title">
+
+                        <span>
+                            Body Movements Trend
+                        </span>
+
+                        <span>
+                            Live
+                        </span>
+
+                    </div>
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="movementChart-${id}"
+                        ></canvas>
+
+                    </div>
+
+                    <div
+                        id="movementInfo-${id}"
+                        class="chart-click-info"
+                    >
+                        Click a graph point to view the exact reading.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="discharge-btn"
+                    onclick="dischargeBaby('${id}')"
+                >
+                    Discharge Baby
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    setTimeout(() => {
+
+        createCharts(id);
+
+    }, 0);
+
+
+    return div;
+
+}
+
+
+/* -------------------------------------------------
+   CHARTS
+------------------------------------------------- */
+
+function createCharts(id) {
+
+    const skinCanvas =
+        document.getElementById(
+            "skinChart-" + id
+        );
+
+
+    const movementCanvas =
+        document.getElementById(
+            "movementChart-" + id
+        );
+
+
+    if(!skinCanvas || !movementCanvas)
+        return;
+
+
+    if(charts[id]) {
+
+        charts[id].skin.destroy();
+
+        charts[id].movement.destroy();
+
+    }
+
+
+    const records =
+        history[id] || [];
+
+
+    const labels =
+        records.map(
+            r => formatTime(r.timestamp)
+        );
+
+
+    const skinValues =
+        records.map(
+            r =>
+                Number(
+                    r.skin_temperature_c
+                )
+        );
+
+
+    const movementValues =
+        records.map(
+            r =>
+                Number(
+                    r.body_movements
+                )
+        );
+
+
+    charts[id] = {};
+
+
+    charts[id].skin =
+        new Chart(
+            skinCanvas,
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+
+                        label:
+                            "Skin Temperature",
+
+                        data:
+                            skinValues,
+
+                        borderWidth:
+                            2,
+
+                        pointRadius:
+                            2,
+
+                        pointHoverRadius:
+                            6,
+
+                        tension:
+                            0.35,
+
+                        fill:
+                            false
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    animation:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                false
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            display:
+                                false
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                font: {
+                                    size: 8
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    onClick:
+                        function(
+                            event,
+                            elements
+                        ) {
+
+                            if(
+                                elements.length === 0
+                            )
+                                return;
+
+
+                            const index =
+                                elements[0].index;
+
+
+                            const record =
+                                records[index];
+
+
+                            showGraphReading(
+                                id,
+                                "skin",
+                                record
+                            );
+
+                        }
+
+                }
+
+            }
+        );
+
+
+    charts[id].movement =
+        new Chart(
+            movementCanvas,
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels:
+                        labels,
+
+                    datasets: [{
+
+                        label:
+                            "Body Movements",
+
+                        data:
+                            movementValues,
+
+                        borderWidth:
+                            2,
+
+                        pointRadius:
+                            2,
+
+                        pointHoverRadius:
+                            6,
+
+                        tension:
+                            0.35,
+
+                        fill:
+                            false
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    animation:
+                        false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                false
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            display:
+                                false
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                font: {
+                                    size: 8
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    onClick:
+                        function(
+                            event,
+                            elements
+                        ) {
+
+                            if(
+                                elements.length === 0
+                            )
+                                return;
+
+
+                            const index =
+                                elements[0].index;
+
+
+                            const record =
+                                records[index];
+
+
+                            showGraphReading(
+                                id,
+                                "movement",
+                                record
+                            );
+
+                        }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* -------------------------------------------------
+   GRAPH CLICK INFORMATION
+------------------------------------------------- */
+
+function showGraphReading(
+    id,
+    type,
+    record
+) {
+
+    if(!record)
+        return;
+
+
+    const time =
+        formatTime(
+            record.timestamp
+        );
+
+
+    if(type === "skin") {
+
+        const box =
+            document.getElementById(
+                "skinInfo-" + id
+            );
+
+
+        box.innerHTML =
+            `<b>${time}</b> — Skin temperature:
+             <b>${Number(record.skin_temperature_c).toFixed(2)} °C</b>
+             | State: <b>${record.state || "--"}</b>`;
+
+    }
+    else {
+
+        const box =
+            document.getElementById(
+                "movementInfo-" + id
+            );
+
+
+        box.innerHTML =
+            `<b>${time}</b> — Body movements:
+             <b>${Number(record.body_movements)} /min</b>
+             | Status:
+             <b>${record.movement_status || "--"}</b>`;
+
+    }
+
+}
+
+
+/* -------------------------------------------------
+   WEBSOCKET
+------------------------------------------------- */
+
+function connectWebSocket() {
+
+    socket =
+        new WebSocket(
+            "ws://localhost:8765"
+        );
+
+
+    socket.onopen =
+        function() {
+
+            document
+                .getElementById(
+                    "connectionBadge"
+                )
+                .innerHTML =
+                "🟢 Live Connected";
+
+
+            document
+                .getElementById(
+                    "wsStatus"
+                )
+                .innerHTML =
+                "CONNECTED";
+
+        };
+
+
+    socket.onmessage =
+        function(event) {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        event.data
+                    );
+
+
+                processTelemetry(
+                    data
+                );
+
+            }
+
+            catch(error) {
+
+                console.error(
+                    "Invalid telemetry:",
+                    error
+                );
+
+            }
+
+        };
+
+
+    socket.onclose =
+        function() {
+
+            document
+                .getElementById(
+                    "connectionBadge"
+                )
+                .innerHTML =
+                "🔴 Disconnected";
+
+
+            document
+                .getElementById(
+                    "wsStatus"
+                )
+                .innerHTML =
+                "DISCONNECTED";
+
+
+            setTimeout(
+                connectWebSocket,
+                3000
+            );
+
+        };
+
+
+    socket.onerror =
+        function(error) {
+
+            console.error(
+                "WebSocket error:",
+                error
+            );
+
+        };
+
+}
+
+
+/* =========================================================
+   NEOCARE AUDIBLE ALARM SYSTEM
+   Alarm detection, display wording, two beeps and speech.
+   ========================================================= */
+
+let alarmAudioContext = null;
+const lastAlarmState = {};
+const activeIncubatorAlarms = {};
+const alarmQueue = [];
+let alarmQueuePlaying = false;
+
+// Browsers require a user interaction before allowing audio.
+document.addEventListener("pointerdown", async function unlockAlarmAudio() {
+    try {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioClass) return;
+        if (!alarmAudioContext) alarmAudioContext = new AudioClass();
+        if (alarmAudioContext.state === "suspended") {
+            await alarmAudioContext.resume();
+        }
+    } catch (error) {
+        console.error("Could not initialize alarm audio:", error);
+    }
+}, { once: true });
+
+function alarmNumber(value) {
+    if (value === null || value === undefined || value === "") return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+}
+
+function getAlarmType(data) {
+    const temperature = alarmNumber(
+        data.baby_temperature_c ?? data.skin_temperature_c
+    );
+    const movements = alarmNumber(
+        data.movement_frequency_hz ??
+        data.movement_frequency ??
+        data.body_movements
+    );
+
+    // Respect backend/dataset alarm flags, while also supporting datasets
+    // where the flags are absent or inconsistent with the raw readings.
+    const lowTemperature = temperature !== null && temperature < 36.5;
+    const highTemperature = temperature !== null && temperature > 37.5;
+    const temperatureAlarm =
+        Number(data.temperature_alarm) === 1 || lowTemperature || highTemperature;
+
+    // Project test rule: movement readings below 10 or above 20 are alarms.
+    // An explicit movement_alarm flag always takes priority as an alarm too.
+    const movementAlarm =
+        Number(data.movement_alarm) === 1 ||
+        (movements !== null && (movements < 10 || movements > 20));
+
+    // Combined conditions must be tested before individual conditions.
+    if (lowTemperature && movementAlarm) return "LOW_TEMP_MOVEMENT";
+    if (highTemperature && movementAlarm) return "HIGH_TEMP_MOVEMENT";
+    if (movementAlarm) return "MOVEMENT";
+    if (lowTemperature && temperatureAlarm) return "LOW_TEMP";
+    if (highTemperature && temperatureAlarm) return "HIGH_TEMP";
+    if (temperatureAlarm) return "TEMPERATURE";
+
+    return null;
+}
+
+function getAlarmMessage(incubatorId, alarmType) {
+    const match = String(incubatorId).match(/\d+/);
+    const number = match ? Number(match[0]) : incubatorId;
+    const prefix = `Incubator ${number}`;
+    const messages = {
+        MOVEMENT: `${prefix} movement alarm`,
+        LOW_TEMP: `${prefix} low temperature alarm`,
+        HIGH_TEMP: `${prefix} high temperature alarm`,
+        LOW_TEMP_MOVEMENT: `${prefix} low temperature and movement alarm`,
+        HIGH_TEMP_MOVEMENT: `${prefix} high temperature and movement alarm`,
+        TEMPERATURE: `${prefix} temperature alarm`
+    };
+    return messages[alarmType] || "";
+}
+
+async function playBeep(duration = 220) {
+    const AudioClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioClass) throw new Error("Web Audio is not supported by this browser.");
+    if (!alarmAudioContext) alarmAudioContext = new AudioClass();
+    if (alarmAudioContext.state === "suspended") await alarmAudioContext.resume();
+
+    const oscillator = alarmAudioContext.createOscillator();
+    const gain = alarmAudioContext.createGain();
+    const start = alarmAudioContext.currentTime;
+    const end = start + duration / 1000;
+
+    oscillator.type = "square";
+    oscillator.frequency.setValueAtTime(900, start);
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(0.25, start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, end);
+    oscillator.connect(gain);
+    gain.connect(alarmAudioContext.destination);
+    oscillator.onended = () => {
+        oscillator.disconnect();
+        gain.disconnect();
+    };
+    oscillator.start(start);
+    oscillator.stop(end);
+    await new Promise(resolve => { oscillator.addEventListener("ended", resolve, { once: true }); });
+}
+
+async function playTwoBeeps() {
+    await playBeep(220);
+    await new Promise(resolve => setTimeout(resolve, 160));
+    await playBeep(220);
+}
+
+function speakAlarm(message) {
+    return new Promise(resolve => {
+        if (!("speechSynthesis" in window) || !message) {
+            console.error("Speech synthesis unavailable:", message);
+            resolve();
+            return;
+        }
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = 0.85;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        utterance.onend = resolve;
+        utterance.onerror = event => {
+            console.error("Speech error:", event.error, message);
+            resolve();
+        };
+        window.speechSynthesis.speak(utterance);
+    });
+}
+
+async function processAlarmQueue() {
+    if (alarmQueuePlaying) return;
+    alarmQueuePlaying = true;
+    try {
+        while (alarmQueue.length > 0) {
+            const alarm = alarmQueue.shift();
+            console.log("🔊 ALARM:", alarm.message);
+            try {
+                await playTwoBeeps();
+            } catch (error) {
+                console.error("Beep playback failed. Click the dashboard once to enable audio:", error);
+            }
+            await new Promise(resolve => setTimeout(resolve, 250));
+            await speakAlarm(alarm.message);
+            await new Promise(resolve => setTimeout(resolve, 200));
+        }
+    } finally {
+        alarmQueuePlaying = false;
+        if (alarmQueue.length > 0) processAlarmQueue();
+    }
+}
+
+function triggerAlarm(data) {
+    const incubatorId = data.incubator_id;
+    if (!incubatorId) return;
+
+    const alarmType = getAlarmType(data);
+    const previousType = lastAlarmState[incubatorId];
+
+    if (!alarmType) {
+        lastAlarmState[incubatorId] = null;
+        delete activeIncubatorAlarms[incubatorId];
+        return;
+    }
+
+    activeIncubatorAlarms[incubatorId] = alarmType;
+    if (previousType === alarmType) return;
+
+    lastAlarmState[incubatorId] = alarmType;
+    const message = getAlarmMessage(incubatorId, alarmType);
+    if (!message) return;
+
+    console.log("ALARM FLAGS:", {
+        incubator: incubatorId,
+        temperature: data.baby_temperature_c ?? data.skin_temperature_c,
+        body_movements: data.body_movements,
+        temperature_alarm: data.temperature_alarm,
+        movement_alarm: data.movement_alarm,
+        overall_alarm: data.overall_alarm,
+        detectedType: alarmType
+    });
+
+    alarmQueue.push({ incubatorId, alarmType, message });
+    processAlarmQueue();
+}
+
+/* ---------------------------------------------------------
+   PROCESS TELEMETRY
+   --------------------------------------------------------- */
+function processTelemetry(data) {
+    const id = data.incubator_id;
+    if (!id || !incubators[id]) return;
+
+    const alarmType = getAlarmType(data);
+    if (alarmType) {
+        document.getElementById("alertMessage").innerText =
+            getAlarmMessage(id, alarmType);
+        document.getElementById("alertBanner").classList.add("active");
+    }
+
+    triggerAlarm(data);
+
+    const unit = incubators[id];
+    if (!unit.manualRegistration) {
+        if (data.baby_id) unit.babyId = data.baby_id;
+        if (data.baby_name) unit.babyName = data.baby_name;
+    }
+
+    unit.data = data;
+    unit.state = data.state || "NORMAL";
+    unit.alarmActive = isIncubatorAlarmActive(data, unit.state);
+
+    if (!history[id]) history[id] = [];
+    history[id].push(data);
+    if (history[id].length > 30) history[id].shift();
+
+    updateUnitCard(id);
+    updateKPIs();
+    addEvent(data);
+    updateAlert(data);
+
+    document.getElementById("lastUpdate").innerText =
+        new Date().toLocaleTimeString();
+}
+
+
+
+/* -------------------------------------------------
+   UPDATE CARD
+------------------------------------------------- */
+
+function updateUnitCard(id) {
+
+    const oldCards =
+        document.querySelectorAll(
+            ".incubator-card"
+        );
+
+
+    let index = -1;
+
+
+    oldCards.forEach(
+        (
+            card,
+            i
+        ) => {
+
+            const badge =
+                card.querySelector(
+                    ".incubator-id"
+                );
+
+
+            if(
+                badge &&
+                badge.innerText.trim() === id
+            ) {
+
+                index =
+                    i;
+
+            }
+
+        }
+    );
+
+
+    renderDashboard();
+
+}
+
+
+/* -------------------------------------------------
+   KPI
+------------------------------------------------- */
+
+function updateKPIs() {
+
+    const occupied =
+        Object.values(
+            incubators
+        )
+        .filter(
+            u =>
+                u.occupied
+        );
+
+
+    const normal =
+        occupied.filter(
+            u =>
+                !u.data ||
+                u.state === "NORMAL"
+        );
+
+
+    const alerts =
+        occupied.filter(
+            u =>
+                u.state === "WARNING" ||
+                u.state === "CRITICAL"
+        );
+
+
+    const temperatures =
+        occupied
+        .map(
+            u =>
+                u.data
+                ? Number(
+                    u.data.skin_temperature_c
+                )
+                : null
+        )
+        .filter(
+            v =>
+                Number.isFinite(v)
+        );
+
+
+    document
+        .getElementById(
+            "occupiedCount"
+        )
+        .innerText =
+        occupied.length;
+
+
+    document
+        .getElementById(
+            "normalCount"
+        )
+        .innerText =
+        normal.length;
+
+
+    document
+        .getElementById(
+            "alertCount"
+        )
+        .innerText =
+        alerts.length;
+
+
+    if(
+        temperatures.length > 0
+    ) {
+
+        const average =
+            temperatures.reduce(
+                (a, b) =>
+                    a + b,
+                0
+            ) /
+            temperatures.length;
+
+
+        document
+            .getElementById(
+                "averageTemp"
+            )
+            .innerText =
+            average.toFixed(
+                1
+            ) + " °C";
+
+    }
+
+}
+
+
+/* -------------------------------------------------
+   ALERT BANNER — use the same alarm classification
+   as the audible alarm so the wording cannot disagree.
+------------------------------------------------- */
+function updateAlert(data) {
+    const banner = document.getElementById("alertBanner");
+    const message = document.getElementById("alertMessage");
+    const incubatorId = String(data.incubator_id || "");
+    if (!incubatorId) return;
+
+    const alarmType = getAlarmType(data);
+    const dislodged =
+        data.dislodgement_flag === "1" ||
+        data.dislodgement_flag === 1 ||
+        data.dislodgement_flag === true ||
+        data.sensor_status === "DISLODGED";
+    const sensorError =
+        data.sensor_status === "ERROR" ||
+        data.signal_quality === "LOST";
+    const hasOtherCritical =
+        Number(data.overall_alarm) === 1 ||
+        data.state === "CRITICAL" ||
+        dislodged ||
+        sensorError;
+
+    if (alarmType) {
+        activeIncubatorAlarms[incubatorId] = {
+            message: getAlarmMessage(incubatorId, alarmType)
+        };
+    } else if (dislodged) {
+        activeIncubatorAlarms[incubatorId] = {
+            message: `Incubator ${incubatorId.match(/\d+/)?.[0] || incubatorId} probe dislodgement alarm`
+        };
+    } else if (sensorError) {
+        activeIncubatorAlarms[incubatorId] = {
+            message: `Incubator ${incubatorId.match(/\d+/)?.[0] || incubatorId} sensor error alarm`
+        };
+    } else if (hasOtherCritical) {
+        activeIncubatorAlarms[incubatorId] = {
+            message: `Incubator ${incubatorId.match(/\d+/)?.[0] || incubatorId} critical alarm`
+        };
+    } else {
+        delete activeIncubatorAlarms[incubatorId];
+    }
+
+    const activeAlarms = Object.values(activeIncubatorAlarms);
+    if (activeAlarms.length === 0) {
+        banner.classList.remove("active");
+        message.innerText = "";
+        return;
+    }
+
+    // Show all active incubator alarms, one per line.
+    message.innerHTML = activeAlarms
+        .map(alarm => `<div>${alarm.message}</div>`)
+        .join("");
+    banner.classList.add("active");
+}
+
+
+/* -------------------------------------------------
+   EVENTS
+------------------------------------------------- */
+
+function addEvent(data) {
+
+    const temperatureAlarm =
+        Number(
+            data.temperature_alarm
+        ) === 1;
+
+
+    const movementAlarm =
+        Number(
+            data.movement_alarm
+        ) === 1;
+
+
+    const overallAlarm =
+        Number(
+            data.overall_alarm
+        ) === 1;
+
+
+    const dislodged =
+        data.dislodgement_flag === "1" ||
+        data.dislodgement_flag === true;
+
+
+    const isAbnormal =
+        temperatureAlarm ||
+        movementAlarm ||
+        overallAlarm ||
+        dislodged;
+
+
+    if(!isAbnormal)
+        return;
+
+
+    const list =
+        document.getElementById(
+            "eventList"
+        );
+
+
+    const event =
+        document.createElement(
+            "div"
+        );
+
+
+    event.className =
+        "event";
+
+
+    event.innerHTML = `
+
+        <div class="event-head">
+
+            <span>
+
+                ${data.incubator_id}
+                ·
+                ${data.state || "NORMAL"}
+
+            </span>
+
+            <span class="event-time">
+
+                ${formatDateTime(
+                    data.timestamp
+                )}
+
+            </span>
+
+        </div>
+
+
+        <div class="event-message">
+
+            ${
+                data.overall_alarm === 1
+                ? `Overall Alarm — ${
+                    data.temperature_alarm === 1
+                    ? "Temperature Alarm"
+                    : ""
+                }${
+                    data.temperature_alarm === 1 &&
+                    data.movement_alarm === 1
+                    ? " + "
+                    : ""
+                }${
+                    data.movement_alarm === 1
+                    ? "Movement Alarm"
+                    : ""
+                }`
+                : "Telemetry operating normally."
+            }
+
+        </div>
+
+    `;
+
+
+    list.prepend(
+        event
+    );
+
+
+    while(
+        list.children.length > 8
+    ) {
+
+        list.removeChild(
+            list.lastChild
+        );
+
+    }
+
+}
+
+
+/* -------------------------------------------------
+   REGISTER BABY
+------------------------------------------------- */
+
+function openModal() {
+
+    updateIncubatorOptions();
+
+
+    document
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .add("active");
+
+}
+
+
+function openModalFor(id) {
+
+    updateIncubatorOptions(
+        id
+    );
+
+
+    document
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .add("active");
+
+}
+
+
+function closeModal() {
+
+    document
+        .getElementById(
+            "babyModal"
+        )
+        .classList
+        .remove("active");
+
+}
+
+
+function updateIncubatorOptions(
+    selectedId = ""
+) {
+
+    const select =
+        document.getElementById(
+            "incubatorSelect"
+        );
+
+
+    select.innerHTML =
+        "";
+
+
+    for(
+        let i = 1;
+        i <= MAX_INCUBATORS;
+        i++
+    ) {
+
+        const id =
+            "INC-" +
+            String(i)
+                .padStart(
+                    3,
+                    "0"
+                );
+
+
+        if(
+            !incubators[id].occupied ||
+            id === selectedId
+        ) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                id;
+
+
+            option.innerText =
+                id +
+                (
+                    incubators[id].occupied
+                    ? " — Current"
+                    : " — Available"
+                );
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+
+    }
+
+}
+
+
+function registerBaby() {
+
+    const name =
+        document
+        .getElementById(
+            "babyName"
+        )
+        .value
+        .trim();
+
+
+    const babyId =
+        document
+        .getElementById(
+            "babyId"
+        )
+        .value
+        .trim();
+
+
+    const age =
+        document
+        .getElementById(
+            "babyAge"
+        )
+        .value
+        .trim();
+
+
+    const weight =
+        document
+        .getElementById(
+            "babyWeight"
+        )
+        .value
+        .trim();
+
+
+    const doctor =
+        document
+        .getElementById(
+            "doctorName"
+        )
+        .value
+        .trim();
+
+
+    const notes =
+        document
+        .getElementById(
+            "babyNotes"
+        )
+        .value
+        .trim();
+
+
+    const incubator =
+        document
+        .getElementById(
+            "incubatorSelect"
+        )
+        .value;
+
+
+    if(!name) {
+
+        alert(
+            "Please enter the baby's name."
+        );
+
+        return;
+
+    }
+
+
+    if(!incubator) {
+
+        alert(
+            "Please select an incubator."
+        );
+
+        return;
+
+    }
+
+
+    incubators[incubator].occupied =
+        true;
+
+
+    incubators[incubator].babyName =
+        name;
+
+
+    incubators[incubator].babyId =
+        babyId ||
+        "Not Assigned";
+
+
+    incubators[incubator].age =
+        age ||
+        "--";
+
+
+    incubators[incubator].weight =
+        weight ||
+        "--";
+
+
+    incubators[incubator].doctor =
+        doctor;
+
+
+    incubators[incubator].notes =
+        notes;
+
+
+    incubators[incubator].admittedAt =
+        new Date().toISOString();
+
+
+    incubators[incubator].manualRegistration =
+        true;
+
+
+    incubators[incubator].data =
+        null;
+
+
+    incubators[incubator].state =
+        "NORMAL";
+
+
+    incubators[incubator].alarmActive =
+        false;
+
+
+    babyHistory.push({
+
+        babyId:
+            incubators[
+                incubator
+            ].babyId,
+
+        babyName:
+            incubators[
+                incubator
+            ].babyName,
+
+        incubatorId:
+            incubator,
+
+        age:
+            incubators[
+                incubator
+            ].age,
+
+        weight:
+            incubators[
+                incubator
+            ].weight,
+
+        doctor:
+            incubators[
+                incubator
+            ].doctor,
+
+        notes:
+            incubators[
+                incubator
+            ].notes,
+
+        admittedAt:
+            incubators[
+                incubator
+            ].admittedAt,
+
+        dischargedAt:
+            null,
+
+        status:
+            "ADMITTED"
+
+    });
+
+
+    persistIncubatorAssignments();
+
+    saveBabyHistory();
+
+
+    closeModal();
+
+    clearForm();
+
+    renderDashboard();
+
+}
+
+
+/* -------------------------------------------------
+   DISCHARGE BABY / PATIENT HISTORY
+------------------------------------------------- */
+
+function saveBabyHistory() {
+
+    localStorage.setItem(
+        "neoCareBabyHistory",
+        JSON.stringify(
+            babyHistory
+        )
+    );
+
+}
+
+
+function dischargeBaby(id) {
+
+    const unit =
+        incubators[id];
+
+
+    if(
+        !unit ||
+        !unit.occupied
+    )
+        return;
+
+
+    if(
+        !confirm(
+            `Discharge ${
+                unit.babyName ||
+                "this baby"
+            } from ${id}?`
+        )
+    )
+        return;
+
+
+    const dischargedAt =
+        new Date().toISOString();
+
+
+    let record =
+        null;
+
+
+    for(
+        let i =
+            babyHistory.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        if(
+            babyHistory[i]
+                .incubatorId === id &&
+            babyHistory[i]
+                .status === "ADMITTED"
+        ) {
+
+            record =
+                babyHistory[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if(!record) {
+
+        record = {
+
+            babyId:
+                unit.babyId ||
+                "Not Assigned",
+
+            babyName:
+                unit.babyName ||
+                "Unknown",
+
+            incubatorId:
+                id,
+
+            age:
+                unit.age ||
+                "--",
+
+            weight:
+                unit.weight ||
+                "--",
+
+            doctor:
+                unit.doctor ||
+                "",
+
+            notes:
+                unit.notes ||
+                "",
+
+            admittedAt:
+                unit.admittedAt ||
+                null,
+
+            dischargedAt:
+                null,
+
+            status:
+                "ADMITTED"
+
+        };
+
+
+        babyHistory.push(
+            record
+        );
+
+    }
+
+
+    record.dischargedAt =
+        dischargedAt;
+
+
+    record.status =
+        "DISCHARGED";
+
+
+    unit.occupied =
+        false;
+
+
+    unit.babyName =
+        "";
+
+
+    unit.babyId =
+        "";
+
+
+    unit.age =
+        "";
+
+
+    unit.weight =
+        "";
+
+
+    unit.doctor =
+        "";
+
+
+    unit.notes =
+        "";
+
+
+    unit.admittedAt =
+        null;
+
+
+    unit.manualRegistration =
+        false;
+
+
+    unit.data =
+        null;
+
+
+    unit.state =
+        "NORMAL";
+
+
+    unit.alarmActive =
+        false;
+
+
+    history[id] =
+        [];
+
+
+    delete activeIncubatorAlarms[
+        id
+    ];
+
+
+    lastAlarmState[id] =
+        null;
+
+
+    if(charts[id]) {
+
+        charts[id]
+            .skin
+            .destroy();
+
+
+        charts[id]
+            .movement
+            .destroy();
+
+
+        delete charts[id];
+
+    }
+
+
+    persistIncubatorAssignments();
+
+    saveBabyHistory();
+
+    renderDashboard();
+
+    renderHistory();
+
+}
+
+
+function clearBabyHistory() {
+
+    if(
+        babyHistory.length === 0
+    )
+        return;
+
+
+    if(
+        !confirm(
+            "Clear all baby admission/discharge history?"
+        )
+    )
+        return;
+
+
+    babyHistory =
+        [];
+
+
+    saveBabyHistory();
+
+    renderHistory();
+
+}
+
+
+function renderHistory() {
+
+    const container =
+        document.getElementById(
+            "historyTableContainer"
+        );
+
+
+    if(!container)
+        return;
+
+
+    if(
+        babyHistory.length === 0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="history-empty">
+                No patient history yet.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    const rows =
+        [
+            ...babyHistory
+        ]
+        .reverse()
+        .map(
+            record => `
+
+        <tr>
+
+            <td>
+                ${escapeHtml(
+                    record.babyId ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    record.babyName ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    record.incubatorId ||
+                    "--"
+                )}
+            </td>
+
+            <td>
+                ${formatDateTime(
+                    record.admittedAt
+                )}
+            </td>
+
+            <td>
+                ${
+                    record.dischargedAt
+                    ? formatDateTime(
+                        record.dischargedAt
+                    )
+                    : "--"
+                }
+            </td>
+
+            <td>
+
+                <span
+                    class="history-status ${
+                        record.status === "ADMITTED"
+                        ? "active"
+                        : "discharged"
+                    }"
+                >
+                    ${record.status}
+                </span>
+
+            </td>
+
+        </tr>
+
+        `
+        )
+        .join("");
+
+
+    container.innerHTML = `
+
+        <div class="history-table-wrap">
+
+            <table class="history-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Baby ID
+                        </th>
+
+                        <th>
+                            Baby Name
+                        </th>
+
+                        <th>
+                            Incubator
+                        </th>
+
+                        <th>
+                            Admission Time
+                        </th>
+
+                        <th>
+                            Discharge Time
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* -------------------------------------------------
+   CLEAR FORM
+------------------------------------------------- */
+
+function clearForm() {
+
+    document
+        .getElementById(
+            "babyName"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "babyId"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "babyAge"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "babyWeight"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "doctorName"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "babyNotes"
+        )
+        .value =
+        "";
+
+}
+
+
+/* -------------------------------------------------
+   HELPERS
+------------------------------------------------- */
+
+function formatNumber(value) {
+
+    const number =
+        Number(value);
+
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === "" ||
+        !Number.isFinite(number)
+    ) {
+
+        return "--";
+
+    }
+
+
+    return number.toFixed(
+        2
+    );
+
+}
+
+
+function formatTime(timestamp) {
+
+    if(!timestamp)
+        return "--";
+
+
+    const date =
+        new Date(timestamp);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    )
+        return timestamp;
+
+
+    return date.toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }
+    );
+
+}
+
+
+function formatDateTime(timestamp) {
+
+    if(!timestamp)
+        return new Date()
+            .toLocaleTimeString();
+
+
+    const date =
+        new Date(timestamp);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    )
+        return timestamp;
+
+
+    return date.toLocaleString();
+
+}
+
+
+/* -------------------------------------------------
+   START
+------------------------------------------------- */
+
+initializeUnits();
+
+renderDashboard();
+
+renderHistory();
+
+connectWebSocket();
+
+</script>
+
+</body>
+</html>
